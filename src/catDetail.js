@@ -1,8 +1,14 @@
 import Header from "./component/Header"
 import Footer from "./component/Footer"
 import { Link } from "react-router-dom"
+import { useEffect } from "react"
+import Evaluate from "./component/Evaluate"
 
 export default function CatDetail(props) {
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    })
+
     function stadiums(item) {
         const arr = []
         const remain = 5 - item
@@ -26,10 +32,10 @@ export default function CatDetail(props) {
         for (let i = 0; i < 9; i++) {
             if (props.catData[i].id !== props.id) {
                 arr.push(
-                    <div className="card-img-container">
+                    <div className="col-md-6 col-lg-3 p-3">
                         <Link to={'/' + props.catData[i].name}>
                             <div 
-                                className="card-img" 
+                                className="cat-img" 
                                 style={{backgroundImage: `url(${props.catData[i].image.url})`}}
                             />
                         </Link>
@@ -41,78 +47,38 @@ export default function CatDetail(props) {
     }
 
     return (
-        <div className="app">
+        <div className="app mx-lg-5">
             <Header />
-            <div className="cat-detail">
-                <div className="cat-detail-img-holder">
-                    <div
-                        className='cat-detail-img'
-                        style={{backgroundImage: `url(${props.image.url})`}} 
-                    />
+            <div className="container-fluid mt-5 d-flex flex-column flex-lg-row ">
+                <div className="col-lg-5 px-lg-5">
+                    <div>
+                        <div
+                            className='cat-img '
+                            style={{backgroundImage: `url(${props.image.url})`}} 
+                        />
+                    </div>
                 </div>
-                <div className="cat-detail-info">
-                    <h3 className="cat-detail-name">{props.name}</h3>
-                    <p className="cat-detail-description">{props.description}</p>
-                    <p className="font-bold"> Temperament:
-                        <span className="font-light">
-                            {props.temperament}
-                        </span>
-                    </p>
-                    <p className="font-bold"> Origin:
-                        <span className="font-light">
-                            {props.origin}
-                        </span>
-                    </p>
-                    <p className="font-bold"> Life Span:
-                        <span className="font-light">
-                            {props.life_span} years
-                        </span> 
-                    </p>
-                    <div className="font-bold cat-detail-evaluate"> Adaptability:
-                        <div className="cat-detail-stadiums">
-                            {stadiums(props.adaptability)}
-                        </div>
-                    </div>
-                    <div className="font-bold cat-detail-evaluate"> Affection level:
-                        <div className="cat-detail-stadiums">
-                            {stadiums(props.affection_level)}
-                        </div>
-                    </div>
-                    <div className="font-bold cat-detail-evaluate"> Child Friendly:
-                        <div className="cat-detail-stadiums">
-                            {stadiums(props.child_friendly)}
-                        </div>
-                    </div>
-                    <div className="font-bold cat-detail-evaluate"> Grooming:
-                        <div className="cat-detail-stadiums">
-                            {stadiums(props.grooming)}
-                        </div>
-                    </div>
-                    <div className="font-bold cat-detail-evaluate"> Intelligence:
-                        <div className="cat-detail-stadiums">
-                            {stadiums(props.intelligence)}
-                        </div>
-                    </div>
-                    <div className="font-bold cat-detail-evaluate"> Health issues:
-                        <div className="cat-detail-stadiums">
-                            {stadiums(props.health_issues)}
-                        </div>
-                    </div>
-                    <div className="font-bold cat-detail-evaluate"> Social needs:
-                        <div className="cat-detail-stadiums">
-                            {stadiums(props.social_needs)}
-                        </div>
-                    </div>
-                    <div className="font-bold cat-detail-evaluate"> Stranger friendly:
-                        <div className="cat-detail-stadiums">
-                            {stadiums(props.stranger_friendly)}
-                        </div>
-                    </div>
+                <div className="col-lg-7">
+                    <h2 className="py-3 pt-lg-0 fw-semibold">{props.name}</h2>
+                    <p className="pb-3">{props.description}</p>
+
+                    <Evaluate name="Temperament:" data={props.temperament}/>
+                    <Evaluate name="Origin:" data={props.origin}/>
+                    <Evaluate name="Life Span:" data={props.life_span} extra='years'/>
+                    <Evaluate name="Adaptability:" stadiums={stadiums(props.adaptability)} />
+                    <Evaluate name="Affection level:" stadiums={stadiums(props.affection_level)} />
+                    <Evaluate name="Child Friendly:" stadiums={stadiums(props.child_friendly)} />
+                    <Evaluate name="Grooming:" stadiums={stadiums(props.grooming)} />
+                    <Evaluate name="Intelligence:" stadiums={stadiums(props.intelligence)} />
+                    <Evaluate name="Health issues:" stadiums={stadiums(props.health_issues)} />
+                    <Evaluate name="Social needs:" stadiums={stadiums(props.social_needs)} />
+                    <Evaluate name="Stranger friendly:" stadiums={stadiums(props.stranger_friendly)} />
+
                 </div>
             </div>
-            <div className="cat-relevant">
-                <div className="cat-relevant-title">Other photos</div>
-                <div className="cat-breeds-content">
+            <div className="container-fluid my-5">
+                <h2 className="fw-semibold">Other photos</h2>
+                <div className="row">
                     {cards()}
                 </div>
             </div>

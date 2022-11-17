@@ -1,0 +1,22 @@
+@import 'bootstrap/dist/css/bootstrap';
+@import "../node_modules/rfs/scss";
+
+:root {
+    --bs-body-font-family: 'Montserrat', sans-serif;
+    --bs-body-color: #291507;
+}
+
+$cat-wiki-bg: '../public/img/HeroImagelg.png';
+$author-link-color: #00e5ff;
+$max-search-width: 400px;
+
+$sm: 576px;
+$md: 768px;
+
+// font size
+$fs-h1: 48px;
+$fs-h2: 36px;
+$fs-h5: 16px;
+
+$fs-p: 18px;
+

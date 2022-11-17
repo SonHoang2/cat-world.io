@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './Home';
 import CatDetail from './catDetail';
-import './style.css';
+import './style.scss';
 import Card from "./component/Card"
 
 export default function App() {

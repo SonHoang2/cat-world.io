@@ -2,16 +2,16 @@ import { Link } from "react-router-dom";
 
 export default function Card(props) {
     return (
-        <div className="card">
-            <div className="card-img-container">
+        <div className="pt-4 col-12 col-md-6 col-lg-3">
+            <div className="pb-2 ">
                 <Link to={'/' + props.name}> 
                     <div 
-                        className="card-img" 
+                        className="cat-img" 
                         style={{backgroundImage: `url(${props.image.url})`}}
                     />
                 </Link>
             </div>
-            <h2 className="card-title">{props.name}</h2>
+            <p className="text-center fw-bold">{props.name}</p>
         </div>
     )  
 }

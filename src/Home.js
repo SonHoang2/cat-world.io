@@ -2,33 +2,43 @@ import Header from "./component/Header"
 import Footer from "./component/Footer"
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import { useEffect } from "react"
 
 export default function Home(props) {
     const [searchValue, setSearchValue] = useState("")
+    const [display, setDisplay] = useState({
+        windowInnerWidth: window.innerWidth,
+    })
 
     const onSearch = searchTerm => {
         setSearchValue(searchTerm)
-      }
+    }
 
+    useEffect(() => {
+        window.addEventListener("resize", () => setDisplay({
+            windowInnerWidth: window.innerWidth,
+        }));
+    }, []);
 
     return (
-        <div className="app">
+        <div className="app mx-lg-5">
             <Header />
-            <div className="container">
+            <div className="container-fluid">
                 <div className="cat-wiki">
-                    <div className="cat-wiki-content">
+                    <div className="cat-wiki-content p-4 p-md-5">
                         <img src="/img/CatwikiLogo.svg" className="cat-wiki-title" />
-                        <div className="cat-wiki-text">Get to know more about your cat breed</div>
-                        <div className="cat-wiki-search">
+                        <p className="cat-wiki__text col-6 col-md-4 mt-1 lh-sm">Get to know more about your cat breed</p>
+                        <div className="cat-wiki__search col-5 my-3">
                             <a target='_blank'></a>
                             <input 
                                 type="text" 
-                                placeholder={window.innerWidth < 600 ? 'Search' : 'Enter your breed'}
+                                placeholder={window.innerWidth < 768 ? 'Search' : 'Enter your breed'}
                                 name="catSearch"
                                 value={searchValue}
+                                className='cat-wiki__input px-3'
                                 onChange={event => setSearchValue(event.target.value)}
                             />
-                            <div className="search-icon-holder">
+                            <div className="search-icon-holder mx-2 mx-sm-3">
                                 <Link to={'/' + searchValue}>
                                     <img className="search-icon" src="/img/search-icon.svg"></img>
                                 </Link>
@@ -62,37 +72,40 @@ export default function Home(props) {
                         </div>
                     </div>
                 </div>
-                <div className="cat-breeds">
-                    <h2 className="cat-breeds-top">Most Searched Breeds</h2>
-                    <div className="cat-breeds-heading">
-                        <h1 className="cat-breeds-title">66+ Breeds For you <br/> to discover</h1>
-                        <div className="more-info more-info--bottom-left">
-                            <button className="more-info--btn" onClick={() => props.setSeeMore(prev => !prev)}>
-                                <h2 className="more-info-text">SEE MORE</h2>
+                <div className="cat-breeds p-4 px-md-5">
+                    <p className="cat-breeds-top">Most Searched Breeds</p>
+                    <div className="cat-breeds-heading d-flex flex-row justify-content-between align-items-end">
+                        <h1 className="cat-breeds-title fw-bold mt-3 lh-sm">66+ Breeds For you <br/> to discover</h1>
+                        {
+                        window.innerWidth > 992 &&
+                        <div className="more-info">
+                            <button className="more-info--btn bg-transparent d-flex align-items-center" onClick={() => props.setSeeMore(prev => !prev)}>
+                                <p className="more-info-text fw-bold">SEE MORE</p>
                                 <img src="/img/trending-flat.svg" className="more-info-icon"></img>
                             </button>
                         </div>
+                        }
                     </div>
-                    <div className="cat-breeds-content">
+                    <div className="cat-breeds-content row">
                         {props.cards}
                     </div>
                 </div>
-                <div className="cat-reason">
-                    <div className="cat-reason-content">
-                        <h1 className="cat-reason-content-title">Why should you have a cat?</h1>
-                        <p className="cat-reason-content-text">
+                <div className="cat-reason mb-4 d-flex flex-column flex-lg-row my-5">
+                    <div className="cat-reason-content col-lg-6 p-lg-5 ">
+                        <h1 className="fw-bold lh-sm">Why should you have a cat?</h1>
+                        <p className="pt-5 lh-sm">
                             Having a cat around you can actually trigger the release of calming chemicals in your body which lower your stress and anxiety leves
                         </p>
-                        <div className="more-info">
-                            <a href="https://animalkind.org/blog/top-5-reasons-cat/" target='_blank'>
-                                <div className="more-info--btn">
-                                    <h2 className="more-info-text">READ MORE</h2>
+                        <div className="more-info col-6 mt-4">
+                            <a className="text-decoration-none" href="https://animalkind.org/blog/top-5-reasons-cat/" target='_blank'>
+                                <div className="more-info--btn d-flex align-items-center flex-row">
+                                    <p className="more-info-text fw-bold">READ MORE</p>
                                     <img src="/img/trending-flat.svg" className="more-info-icon"></img>
                                 </div>
                             </a>
                         </div>
                     </div>
-                    <div className="cat-reason-img-container">
+                    <div className="cat-reason-img-container my-5 my-lg-0">
                         <div className="cat-reason-img-container-left">
                             <img src="./img/cat2.png" className="cat-reason-img cat-reason-img--1" />
                             <img src="./img/cat1.png" className="cat-reason-img cat-reason-img--2" />

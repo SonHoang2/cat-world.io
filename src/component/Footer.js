@@ -1,16 +1,21 @@
 export default function Footer() {
     return (
-        <footer className="footer">
-            <img src="/img/CatwikiLogo.svg" className="footer-logo" />
-            <div className="footer-author">© create by 
-                <a 
-                    href="https://github.com/SonHoang2" 
-                    className="footer-author-link"
-                    target='_blank'
-                >
+        <div className="container-fluid mt-5">
+            <footer className="footer p-3 d-flex align-items-center justify-content-between">
+                <img 
+                    src="/img/CatwikiLogo.svg" 
+                    className="footer-logo" 
+                />
+                <p className="text-white">© create by 
+                    <a 
+                        href="https://github.com/SonHoang2" 
+                        className="footer__link mx-2"
+                        target='_blank'
+                    >
                         SonHoang2
-                </a>
-            </div>
-        </footer>
+                    </a>
+                </p>
+            </footer>
+        </div>
     )
 }
