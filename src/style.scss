@@ -20,6 +20,10 @@ p {
     @include font-size($fs-p)
 }
 
+.bg-gray {
+    background-color: #9797971A;
+}
+
 .cat-wiki {
     background-image: url($cat-wiki-bg);
     background-size: cover;
@@ -37,28 +41,29 @@ p {
     font-weight: 500;
 }
 
-.cat-wiki__search {
+.search-bar {
     position: relative;
-    max-width: $max-search-width;
-    
 }
 
-.cat-wiki__input {
+.search-bar-mw {
+    max-width: $max-search-width;
+}
+
+.search__input {
     width: 100%;
     border-radius: 40px;
-    border: none;
 }
 
-.cat-wiki__input, 
+.search__input, 
 .search-icon-holder {
     height: 55px;
 }
 
-.cat-wiki__input:focus {
+.search__input:focus {
     outline: none;
 }
 
-.cat-wiki__input::placeholder {
+.search__input::placeholder {
     color: #291507;
 }
 
@@ -128,6 +133,10 @@ p {
 	box-shadow: inset 0 0 6px rgba(0,0,0,.3);
 	background-color: #BDBDBD;
 }
+
+// .exit-icon {
+//     border-radius: 8px;
+// }
 
 .cat-breeds {
     background-color: #E3E1DC;

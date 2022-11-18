@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react"
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './Home';
-import CatDetail from './catDetail';
+import CatDetail from './CatDetail';
 import './style.scss';
 import Card from "./component/Card"
+import MobileSearch from "./MobileSearch";
 
 export default function App() {
     const [catData, setCatData] = useState([])
@@ -32,6 +33,8 @@ export default function App() {
         )
     }
 
+
+
     useEffect(() => {
         async function getCatData() {
             const res = await fetch(`https://api.thecatapi.com/v1/breeds?limit=12&page=0`)
@@ -47,12 +50,18 @@ export default function App() {
                 <Route 
                     path='/'
                     element={<Home 
-                                catData={catData} 
+                                catData={catData}
                                 setCatData={setCatData}
                                 seeMore={seeMore}
                                 setSeeMore={setSeeMore}
                                 cards={cards()}
                             />} 
+                />
+                <Route 
+                    path="/mobile-search"
+                    element={<MobileSearch 
+                        catData={catData}
+                    />}
                 />
                 {catData.map(item => (
                     <Route 

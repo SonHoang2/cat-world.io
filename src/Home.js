@@ -1,8 +1,9 @@
 import Header from "./component/Header"
 import Footer from "./component/Footer"
 import { useState } from "react"
+import { useEffect} from "react"
+import MobileSearch from "./MobileSearch";
 import { Link } from "react-router-dom"
-import { useEffect } from "react"
 
 export default function Home(props) {
     const [searchValue, setSearchValue] = useState("")
@@ -14,30 +15,46 @@ export default function Home(props) {
         setSearchValue(searchTerm)
     }
 
+
     useEffect(() => {
         window.addEventListener("resize", () => setDisplay({
             windowInnerWidth: window.innerWidth,
         }));
+
     }, []);
+
+    
 
     return (
         <div className="app mx-lg-5">
             <Header />
             <div className="container-fluid">
                 <div className="cat-wiki">
-                    <div className="cat-wiki-content p-4 p-md-5">
+                    <div className="cat-wiki-content p-4 p-md-5 col-lg-6">
                         <img src="/img/CatwikiLogo.svg" className="cat-wiki-title" />
-                        <p className="cat-wiki__text col-6 col-md-4 mt-1 lh-sm">Get to know more about your cat breed</p>
-                        <div className="cat-wiki__search col-5 my-3">
-                            <a target='_blank'></a>
-                            <input 
-                                type="text" 
-                                placeholder={window.innerWidth < 768 ? 'Search' : 'Enter your breed'}
-                                name="catSearch"
-                                value={searchValue}
-                                className='cat-wiki__input px-3'
-                                onChange={event => setSearchValue(event.target.value)}
-                            />
+                        <p className="cat-wiki__text search-bar-mw mt-1 lh-sm">Get to know more about your cat breed</p>
+                        <div className="search-bar search-bar-mw my-3">
+                            {
+                                window.innerWidth < 576 ?
+                                    <Link to='/mobile-search'>
+                                        <input 
+                                            type="text" 
+                                            placeholder='Search'
+                                            name="catSearch"
+                                            value={searchValue}
+                                            className='search__input ps-3 pe-5 border-0'
+                                            onChange={event => setSearchValue(event.target.value)}
+                                        />
+                                    </Link> : 
+                                        <input 
+                                            type="text" 
+                                            placeholder='Enter your breed'
+                                            name="catSearch"
+                                            value={searchValue}
+                                            className='search__input ps-3 pe-5 border-0'
+                                            onChange={event => setSearchValue(event.target.value)}
+                                        />
+                            }
                             <div className="search-icon-holder mx-2 mx-sm-3">
                                 <Link to={'/' + searchValue}>
                                     <img className="search-icon" src="/img/search-icon.svg"></img>
