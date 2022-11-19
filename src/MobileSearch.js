@@ -25,8 +25,8 @@ export default function MobileSearch(props) {
                     onChange={event => setSearchValue(event.target.value)}
                 />
                 <div className="search-icon-holder mx-2 mx-sm-3">
-                    <Link to={'/' + searchValue}>
-                        <img className="search-icon" src="/img/search-icon.svg"></img>
+                    <Link to={'/' + searchValue} className="d-flex text-decoration-none">
+                        <span class="material-symbols-outlined text-black">search</span>
                     </Link>
                 </div>
                 <div className="mt-4">

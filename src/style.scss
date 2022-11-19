@@ -24,6 +24,56 @@ p {
     background-color: #9797971A;
 }
 
+.color-btn {
+    color: $color-btn;
+}
+
+.hover-effect {
+    background-image: linear-gradient(
+        to right,
+        #54b3d6,
+        #54b3d6 50%,
+        $color-btn 50%
+    );
+    background-size: 200% 100%;
+    background-position: -100%;
+    display: inline-block;
+    padding: 5px 0;
+    position: relative;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: all 0.3s ease-in-out;
+}
+
+.hover-effect:before {
+    content: '';
+    background: #54b3d6;
+    display: block;
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 3px;
+    transition: all 0.3s ease-in-out;
+}
+
+.hover-effect:hover {
+    background-position: 0;
+}
+
+.hover-effect:hover::before {
+    width:100%;
+}
+
+.author-link {
+    background-image: linear-gradient(
+        to right,
+        #54b3d6,
+        #54b3d6 50%,
+        $author-link 50%
+    );
+}
+
 .cat-wiki {
     background-image: url($cat-wiki-bg);
     background-size: cover;
@@ -76,15 +126,6 @@ p {
     width: 25px;
 }
 
-.search-icon {
-    width: 100%;
-    object-fit: contain;
-}
-
-.search-icon:hover  {
-    cursor: pointer;
-}
-
 .search-dropdown:empty {
     display: none;
 }
@@ -134,10 +175,6 @@ p {
 	background-color: #BDBDBD;
 }
 
-// .exit-icon {
-//     border-radius: 8px;
-// }
-
 .cat-breeds {
     background-color: #E3E1DC;
     border-bottom-left-radius: 50px;
@@ -173,21 +210,6 @@ p {
     padding-left: 20px;
 }
 
-.more-info--btn {
-    border: none;
-}
-
-.more-info-text {
-    color: #7F736A;
-    padding-right: 5px;
-}
-
-.more-info-icon {
-    filter: invert(43%) sepia(19%) saturate(257%) hue-rotate(343deg) brightness(100%) contrast(86%);
-    width: 23px;
-    object-fit: contain;
-}
-
 .footer {
     background-color: #000000;
     border-top-left-radius: 42px;
@@ -196,14 +218,6 @@ p {
 
 .footer-logo {
     filter: invert(96%) sepia(0%) saturate(15%) hue-rotate(222deg) brightness(102%) contrast(105%);
-}
-
-.footer__link {
-    color: inherit;
-}
-
-.footer__link:hover {
-    color: $author-link-color !important;
 }
 
 .cat-img {

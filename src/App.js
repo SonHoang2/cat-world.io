@@ -32,12 +32,9 @@ export default function App() {
             ))
         )
     }
-
-
-
     useEffect(() => {
         async function getCatData() {
-            const res = await fetch(`https://api.thecatapi.com/v1/breeds?limit=12&page=0`)
+            const res = await fetch(`https://api.thecatapi.com/v1/breeds?limit=67&page=0`)
             const data = await res.json()
             setCatData(data)
         }

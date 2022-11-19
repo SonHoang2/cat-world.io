@@ -11,7 +11,7 @@ export default function Footer() {
                 <p className="text-white">© create by 
                     <a 
                         href="https://github.com/SonHoang2" 
-                        className="footer__link mx-2"
+                        className="author-link mx-2 fw-bold hover-effect"
                         target='_blank'
                     >
                         SonHoang2

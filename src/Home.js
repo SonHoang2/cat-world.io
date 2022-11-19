@@ -56,8 +56,8 @@ export default function Home(props) {
                                         />
                             }
                             <div className="search-icon-holder mx-2 mx-sm-3">
-                                <Link to={'/' + searchValue}>
-                                    <img className="search-icon" src="/img/search-icon.svg"></img>
+                                <Link to={'/' + searchValue} className="d-flex text-decoration-none">
+                                    <span class="material-symbols-outlined text-black">search</span>
                                 </Link>
                             </div>
                             <div className="search-dropdown">
@@ -95,10 +95,10 @@ export default function Home(props) {
                         <h1 className="cat-breeds-title fw-bold mt-3 lh-sm">66+ Breeds For you <br/> to discover</h1>
                         {
                         window.innerWidth > 992 &&
-                        <div className="more-info">
-                            <button className="more-info--btn bg-transparent d-flex align-items-center" onClick={() => props.setSeeMore(prev => !prev)}>
-                                <p className="more-info-text fw-bold">SEE MORE</p>
-                                <img src="/img/trending-flat.svg" className="more-info-icon"></img>
+                        <div>
+                            <button className="border-0 bg-transparent d-flex align-items-center hover-effect" onClick={() => props.setSeeMore(prev => !prev)}>
+                                <p className="color-btn p-1 fw-bold">SEE MORE</p>
+                                <span className="material-symbols-outlined color-btn">trending_flat</span>
                             </button>
                         </div>
                         }
@@ -113,11 +113,11 @@ export default function Home(props) {
                         <p className="pt-5 lh-sm">
                             Having a cat around you can actually trigger the release of calming chemicals in your body which lower your stress and anxiety leves
                         </p>
-                        <div className="more-info col-6 mt-4">
+                        <div className="more-info d-inline-block mt-4">
                             <a className="text-decoration-none" href="https://animalkind.org/blog/top-5-reasons-cat/" target='_blank'>
-                                <div className="more-info--btn d-flex align-items-center flex-row">
-                                    <p className="more-info-text fw-bold">READ MORE</p>
-                                    <img src="/img/trending-flat.svg" className="more-info-icon"></img>
+                                <div className="border-0 d-flex align-items-center flex-row hover-effect">
+                                    <p className="color-btn p-1 fw-bold">READ MORE</p>
+                                    <span className="material-symbols-outlined color-btn">trending_flat</span>
                                 </div>
                             </a>
                         </div>
