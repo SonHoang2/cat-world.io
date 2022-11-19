@@ -12,9 +12,9 @@ export default function Evaluate(props) {
         } 
         if (props.stadiums) {
             return (
-                <div className="d-flex align-items-baseline pb-3">
-                    <h5 className="fw-bold col-3">{props.name}</h5>
-                    <div className="d-flex flex-row mx-2">
+                <div className="d-flex align-items-baseline pb-3 justify-content-between justify-content-sm-start">
+                    <h5 className="fw-bold col-5 col-sm-3">{props.name}</h5>
+                    <div className="d-flex flex-row mx-sm-2 flex-grow-1">
                         {props.stadiums}
                     </div>
                 </div> 

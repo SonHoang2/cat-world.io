@@ -228,10 +228,9 @@ p {
 }
 
 .stadium {
-    width: 60px;
+    width: 20%;
     height: 12px;
     border-radius: 8px;
-    margin-right: 8px;
 }
 
 .stadium--active {
@@ -240,6 +239,13 @@ p {
 
 .stadium--inactive {
     background-color: #E0E0E0;
+}
+
+@media screen and (min-width: 450px) {
+    .stadium {
+        width: 60px;
+        height: 12px;
+    }
 }
 
 @media screen and (min-width: $md) {

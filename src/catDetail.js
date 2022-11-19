@@ -15,13 +15,13 @@ export default function CatDetail(props) {
 
         for (let i = 0; i < item; i++) {
             arr.push((
-                <div className="stadium stadium--active">
+                <div className="stadium stadium--active me-1 me-sm-2">
                 </div>
             ))
         }
         for (let i = 0; i < remain; i++) {
             arr.push((
-                <div className="stadium stadium--inactive">
+                <div className="stadium stadium--inactive me-1 me-sm-2">
                 </div>
             ))
         }
