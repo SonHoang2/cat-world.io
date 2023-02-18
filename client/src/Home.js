@@ -104,28 +104,32 @@ export default function Home(props) {
                         {props.cards}
                     </div>
                 </div>
-                <div className="cat-reason mb-4 d-flex flex-column flex-lg-row my-5">
-                    <div className="cat-reason-content col-lg-6 p-lg-5 ">
-                        <h1 className="fw-bold lh-sm">Why should you have a cat?</h1>
-                        <p className="pt-5 lh-sm">
-                            Having a cat around you can actually trigger the release of calming chemicals in your body which lower your stress and anxiety leves
+                <div className="cat-reason mb-4 d-flex flex-column flex-lg-row p-5">
+                    <div className="cat-reason-content col-lg-6 pe-lg-5 d-flex flex-column justify-content-center">
+                        <h1 className="fw-bold lh-sm pt-5">Why should you have a cat?</h1>
+                        <p className="pt-5 lh-sm pe-5">
+                            Having a cat around you can actually trigger the release of calming chemicals in your body which  lower your stress and anxiety leves
                         </p>
-                        <div className="more-info d-inline-block mt-4">
+                        <div className="more-info d-flex mt-4">
                             <a className="text-decoration-none" href="https://animalkind.org/blog/top-5-reasons-cat/" target='_blank'>
-                                <div className="border-0 d-flex align-items-center flex-row hover-effect">
+                                <div className="border-0 d-flex align-items-center flex-row me-auto hover-effect">
                                     <p className="color-btn p-1 fw-bold">READ MORE</p>
                                     <span className="material-symbols-outlined color-btn">trending_flat</span>
                                 </div>
                             </a>
                         </div>
                     </div>
-                    <div className="cat-reason-img-container my-5 my-lg-0">
-                        <div className="cat-reason-img-container-left">
-                            <img src="./img/cat2.png" className="cat-reason-img cat-reason-img--1" />
-                            <img src="./img/cat1.png" className="cat-reason-img cat-reason-img--2" />
-                        </div>
-                        <div className="cat-reason-img-container-right">
-                            <img src="./img/cat3.png" className="cat-reason-img cat-reason-img--3" />
+                    <div className="pe-xl-5 col-lg-6">
+                        <div className="cat-reason-img-container my-5 my-lg-0">
+                            <div className="cat-reason-img-1">
+                                <img src="./img/cat2.png" className="cat-reason-img border-radius-20" />
+                            </div>
+                            <div className="cat-reason-img-2">
+                                <img src="./img/cat1.png" className="cat-reason-img border-radius-20" />
+                            </div>
+                            <div className="cat-reason-img-3">
+                                <img src="./img/cat3.png" className="cat-reason-img border-radius-20" />
+                            </div>
                         </div>
                     </div>
                 </div>

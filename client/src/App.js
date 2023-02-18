@@ -5,6 +5,8 @@ import CatDetail from './CatDetail';
 import './style.scss';
 import Card from "./component/Card"
 import MobileSearch from "./MobileSearch";
+import Login from "./Login";
+import Signup from "./Signup"
 
 export default function App() {
     const [catData, setCatData] = useState([])
@@ -75,6 +77,14 @@ export default function App() {
                         }
                     />
                 ))}
+                <Route 
+                    path='/login'   
+                    element={<Login />}
+                />
+                <Route 
+                    path='/signup'   
+                    element={<Signup />}
+                />
             </Routes>
         </BrowserRouter>
     )
