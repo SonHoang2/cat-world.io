@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const catRoutes = require('./routes/catRoutes');
 const authRoutes = require('./routes/authRoutes')
 var cookieParser = require("cookie-parser");
-const {requireAuth} = require('./middleware/authMiddleware')
 const cors = require('cors')
 const app = express();
 
@@ -11,7 +10,7 @@ const app = express();
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(cors(({credentials: true, origin: 'http://localhost:3000'})));
 
 //view engine
 app.set('view engine', 'ejs');

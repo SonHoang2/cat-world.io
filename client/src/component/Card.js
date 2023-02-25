@@ -11,7 +11,7 @@ export default function Card(props) {
                     />
                 </Link>
             </div>
-            <p className="text-center fw-bold">{props.name}</p>
+            <p className="text-center fw-bold pt-2">{props.name}</p>
         </div>
     )  
 }

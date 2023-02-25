@@ -1,4 +1,3 @@
-const pool = require('../models/User');
 var validator = require('validator');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken')
@@ -56,7 +55,9 @@ module.exports.signup_post = async (req, res) => {
         }
         const user = await User.create(email,password);
         const token = createToken(user.id);
-        res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge * 1000})
+        res.cookie('jwt', token, {
+            maxAge: maxAge * 1000
+        })
         res.status(201).json({user: user.id})
     }
     catch(err) {
@@ -76,7 +77,9 @@ module.exports.login_post = async (req, res) => {
         }
         let user = await User.login(email, password);
         const token = createToken(user.id);
-        res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge * 1000})
+        res.cookie('jwt', token, {
+            maxAge: maxAge * 1000
+        })
         res.status(201).json({user: user.id})
     }
     catch (err) {
@@ -85,8 +88,20 @@ module.exports.login_post = async (req, res) => {
     }
 }
 
-module.exports.logout_get = (req, res) => {
-    res.cookie('jwt', '', { maxAge: 1 });
-    res.redirect('/')
+module.exports.requireAuth = (req, res, next) => {
+    const token = req.cookies.jwt;
+    console.log(token);
+    if (token) {
+        jwt.verify(token, process.env.JWT_SECRET, (err, decodeToken) => {
+            if (err) {
+                console.log(err.message);
+                res.redirect('/login')
+            } else {
+                console.log(decodeToken);
+                next();
+            }
+        })
+    } else {
+        res.redirect('/login')
+    }
 }
-

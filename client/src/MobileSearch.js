@@ -26,7 +26,7 @@ export default function MobileSearch(props) {
                 />
                 <div className="search-icon-holder mx-2 mx-sm-3">
                     <Link to={'/' + searchValue} className="d-flex text-decoration-none">
-                        <span class="material-symbols-outlined text-black">search</span>
+                        <span className="material-symbols-outlined text-black">search</span>
                     </Link>
                 </div>
                 <div className="mt-4">

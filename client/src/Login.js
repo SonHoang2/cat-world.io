@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 export default function Login() {
@@ -6,7 +6,8 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
-
+    const navigate = useNavigate();
+    
     const handleSubmit = async e => {
         e.preventDefault();
         console.log(emailError, passwordError);
@@ -14,16 +15,16 @@ export default function Login() {
             const res = await fetch('http://localhost:5000/login', {
                 method: 'POST',
                 body: JSON.stringify({email, password}),
+                credentials: 'include', 
                 headers: {'Content-Type': 'application/json'},
             });
             const data = await res.json();
-            console.log(data);
             if (data.errors) {
                 setEmailError(data.errors.email);
                 setPasswordError(data.errors.password);
             }
             if (data.user) {
-                window.location.assign('/')
+                navigate('/');
             }   
         }
         catch(err) {
