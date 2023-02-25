@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { baseURL } from "./App";
 
 export default function Signup() {
     const [email, setEmail] = useState("");
@@ -12,7 +13,7 @@ export default function Signup() {
         e.preventDefault();
 
         try {
-            const res = await fetch('http://localhost:5000/signup', {
+            const res = await fetch(baseURL + '/signup', {
                 method: 'POST',
                 body: JSON.stringify({email, password}),
                 credentials: 'include', 

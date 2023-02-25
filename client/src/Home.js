@@ -1,7 +1,6 @@
 import Header from "./component/Header"
 import Footer from "./component/Footer"
 import { useState, useEffect } from "react"
-import MobileSearch from "./MobileSearch";
 import { Link } from "react-router-dom"
 
 export default function Home(props) {

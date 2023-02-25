@@ -8,6 +8,8 @@ import MobileSearch from "./MobileSearch";
 import Login from "./Login";
 import Signup from "./Signup"
 
+export const baseURL = "https://cat-world-io.vercel.app/";
+
 export default function App() {
     const [catData, setCatData] = useState([])
     const [seeMore, setSeeMore] = useState(true)
@@ -36,7 +38,7 @@ export default function App() {
     }
     useEffect(() => {
         async function getCatData() {
-            const res = await fetch(`http://localhost:5000/show`, {
+            const res = await fetch(baseURL + '/show', {
                 method: "GET",
             })
             const data = await res.json()

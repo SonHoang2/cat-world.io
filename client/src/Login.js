@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { baseURL } from "./App";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -12,7 +13,7 @@ export default function Login() {
         e.preventDefault();
         console.log(emailError, passwordError);
         try {
-            const res = await fetch('http://localhost:5000/login', {
+            const res = await fetch(baseURL + '/login', {
                 method: 'POST',
                 body: JSON.stringify({email, password}),
                 credentials: 'include', 

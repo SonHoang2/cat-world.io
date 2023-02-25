@@ -6,14 +6,15 @@ var cookieParser = require("cookie-parser");
 const cors = require('cors')
 const app = express();
 
+const baseURL = "https://cat-world-client-io.vercel.app/";
+
 //middleware
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(cors(({credentials: true, origin: 'http://localhost:3000'})));
+app.use(cors(({credentials: true, origin: baseURL})));
 
 //view engine
-app.set('view engine', 'ejs');
 
 var PORT = 5000;
 app.listen(PORT, function(err){
