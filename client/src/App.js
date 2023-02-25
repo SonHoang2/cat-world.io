@@ -38,7 +38,7 @@ export default function App() {
     }
     useEffect(() => {
         async function getCatData() {
-            const res = await fetch(baseURL + '/show', {
+            const res = await fetch(baseURL + 'show', {
                 method: "GET",
             })
             const data = await res.json()

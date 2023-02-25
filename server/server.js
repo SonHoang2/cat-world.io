@@ -6,7 +6,7 @@ var cookieParser = require("cookie-parser");
 const cors = require('cors')
 const app = express();
 
-const baseURL = "https://cat-world-client-io.vercel.app/";
+const baseURL = "https://cat-world-client-io.vercel.app";
 
 //middleware
 app.use(express.static('public'));
