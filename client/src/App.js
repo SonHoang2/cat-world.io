@@ -41,7 +41,6 @@ export default function App() {
                 method: "GET",
             })
             const data = await res.json()
-            console.log(data);
             setCatData(data)
         }
         getCatData()
