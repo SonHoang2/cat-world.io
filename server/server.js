@@ -13,7 +13,7 @@ const baseURL = process.env.baseURL;
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(cookieParser());
-// app.use(cors(({credentials: true, origin: baseURL})));
+app.use(cors(({credentials: true, origin: baseURL})));
 
 var PORT = 5000;
 app.listen(PORT, function(err){
