@@ -38,11 +38,11 @@ export default function Header () {
                             </div>
                         }
                     </div> :
-                    <div className="rounded btn">
-                        <Link to="/login" className="text-decoration-none">
+                    <Link to="/login" className="text-decoration-none">
+                        <div className="rounded btn">
                             <h4 className="text-white">Login</h4>
-                        </Link>
-                    </div>
+                        </div>
+                    </Link>
                 }
             </div>
         </div>

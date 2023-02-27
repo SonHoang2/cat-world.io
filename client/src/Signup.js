@@ -13,7 +13,7 @@ export default function Signup() {
         e.preventDefault();
 
         try {
-            const res = await fetch(baseURL + 'signup', {
+            const res = await fetch(baseURL + '/signup', {
                 method: 'POST',
                 body: JSON.stringify({email, password}),
                 credentials: 'include', 

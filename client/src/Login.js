@@ -13,7 +13,7 @@ export default function Login() {
         e.preventDefault();
         console.log(emailError, passwordError);
         try {
-            const res = await fetch(baseURL + 'login', {
+            const res = await fetch(baseURL + '/login', {
                 method: 'POST',
                 body: JSON.stringify({email, password}),
                 credentials: 'include', 

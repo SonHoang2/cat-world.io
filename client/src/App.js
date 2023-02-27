@@ -8,12 +8,11 @@ import MobileSearch from "./MobileSearch";
 import Login from "./Login";
 import Signup from "./Signup"
 
-export const baseURL = "https://cat-world-io.vercel.app/";
+export const baseURL = process.env.REACT_APP_BASE_URL;
 
 export default function App() {
     const [catData, setCatData] = useState([])
     const [seeMore, setSeeMore] = useState(true)
-    
     const cards = () => {
         const arr = [];
         if (catData.length) {
@@ -38,10 +37,11 @@ export default function App() {
     }
     useEffect(() => {
         async function getCatData() {
-            const res = await fetch(baseURL + 'show', {
+            const res = await fetch(baseURL + '/show', {
                 method: "GET",
             })
             const data = await res.json()
+            console.log(data);
             setCatData(data)
         }
         getCatData()

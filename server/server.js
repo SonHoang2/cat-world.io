@@ -5,8 +5,9 @@ const authRoutes = require('./routes/authRoutes')
 var cookieParser = require("cookie-parser");
 const cors = require('cors')
 const app = express();
+require('dotenv').config()
 
-const baseURL = "https://cat-world-client-io.vercel.app";
+const baseURL = process.env.baseURL;
 
 //middleware
 app.use(express.static('public'));

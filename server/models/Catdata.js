@@ -1,6 +1,5 @@
-const pool = require('./db');
+const catDB = require('../DB/catDB')
 
-module.exports.show = async () => {
-    const [rows] = await pool.query('select * FROM catdata');
-    return rows
+module.exports.show = () => {
+    return catDB;
 }
