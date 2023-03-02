@@ -3,6 +3,8 @@ import Footer from "./component/Footer"
 import { Link } from "react-router-dom"
 import { useEffect } from "react"
 import Evaluate from "./component/Evaluate"
+import { motion } from "framer-motion"
+
 
 export default function CatDetail(props) {
     useEffect(() => {
@@ -33,8 +35,10 @@ export default function CatDetail(props) {
                 arr.push(
                     <div className="col-md-6 col-lg-3 p-3 hover-img">
                         <Link to={'/' + props.catData[i].name}>
-                            <div 
-                                className="cat-img" 
+                            <motion.div 
+                                whileHover={{y: -20}}
+                                whileTap={{ scale: 1.1 }}
+                                className="cat-img"
                                 style={{backgroundImage: `url(img/${props.catData[i].image_url}.jpg)`}}
                             />
                         </Link>
@@ -48,8 +52,13 @@ export default function CatDetail(props) {
     return (
         <div className="app">
             <Header />
-            <div className="mx-lg-5 pt-5">
-                <div className="container-fluid mt-3 pt-4 d-flex flex-column flex-lg-row ">
+            <motion.div 
+                className="mx-lg-5 pt-5"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{opacity: 0}}
+            >
+                <div className="container-fluid mt-3 pt-5 d-flex flex-column flex-lg-row ">
                     <div className="col-lg-5 px-lg-5">
                         <div>
                             <div
@@ -81,7 +90,7 @@ export default function CatDetail(props) {
                     </div>
                 </div>
                 <Footer />
-            </div>
+            </motion.div>
         </div>
     )
 }

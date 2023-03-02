@@ -25,6 +25,7 @@ export default function Login() {
                 setPasswordError(data.errors.password);
             }
             if (data.user) {
+                localStorage.setItem('user', data.user);
                 navigate('/');
             }   
         }

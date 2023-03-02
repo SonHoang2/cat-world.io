@@ -25,7 +25,8 @@ export default function Signup() {
                 setPasswordError(data.errors.password);
             }
             if (data.user) {
-                navigate('/')
+                localStorage.setItem('user', data.user);
+                navigate('/');
             }   
         }
         catch(err) {
