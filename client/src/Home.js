@@ -97,21 +97,23 @@ export default function Home(props) {
                         <div className="cat-breeds-heading d-flex flex-row justify-content-between align-items-end">
                             <h1 className="cat-breeds-title fw-bold mt-3 lh-sm">66+ Breeds For you <br/> to discover</h1>
                             {
-                            window.innerWidth > 992 &&
-                            <div>
-                                <button className="border-0 bg-transparent d-flex align-items-center hover-effect" onClick={() => props.setSeeMore(prev => !prev)}>
-                                    <p className="color-btn p-1 fw-bold">SEE MORE</p>
-                                    <span className="material-symbols-outlined color-btn">trending_flat</span>
-                                </button>
-                            </div>
+                                window.innerWidth > 992 &&
+                                <div>
+                                    <button className="border-0 bg-transparent d-flex align-items-center hover-effect" onClick={() => props.setSeeMore(prev => !prev)}>
+                                        <p className="color-btn p-1 fw-bold">SEE MORE</p>
+                                        <span className="material-symbols-outlined color-btn">trending_flat</span>
+                                    </button>
+                                </div>
                             }
                         </div>
-                        <div className="cat-breeds-content row">
+                        <motion.div
+                            className="cat-breeds-content row"
+                        >
                             {props.cards !== 0 ? 
                                 props.cards :
                                 <div className="lds-ring w-100 d-flex justify-content-center"><div></div><div></div><div></div><div></div></div>
                             }
-                        </div>
+                        </motion.div>
                     </div>
                     <div className="cat-reason mb-4 d-flex flex-column flex-lg-row p-lg-5">
                         <div className="cat-reason-content col-lg-6 pe-lg-5 d-flex flex-column justify-content-center">

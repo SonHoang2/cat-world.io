@@ -32,14 +32,6 @@ function createToken(id) {
     })
 }
 
-module.exports.signup_get = (req, res) => {
-    res.json('signup');
-}
-
-module.exports.login_get = (req, res) => {
-    res.json('login');
-}
-
 module.exports.signup_post = async (req, res) => {
     const { email, password} = req.body;
     try {
@@ -92,20 +84,3 @@ module.exports.login_post = async (req, res) => {
     }
 }
 
-module.exports.requireAuth = (req, res, next) => {
-    const token = req.cookies.jwt;
-    console.log(token);
-    if (token) {
-        jwt.verify(token, process.env.JWT_SECRET, (err, decodeToken) => {
-            if (err) {
-                console.log(err.message);
-                res.redirect('/login')
-            } else {
-                console.log(decodeToken);
-                next();
-            }
-        })
-    } else {
-        res.redirect('/login')
-    }
-}

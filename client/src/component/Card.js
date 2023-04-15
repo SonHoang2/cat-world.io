@@ -7,6 +7,9 @@ export default function Card(props) {
             <div className="pb-2 ">
                 <Link to={'/' + props.name}> 
                     <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{opacity: 1}}
+                        transition={{delay: 0.1}}
                         whileHover={{y: -20}}
                         whileTap={{ scale: 1.1 }}
                         className="cat-img"

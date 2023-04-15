@@ -12,6 +12,10 @@ h2 {
     @include font-size($fs-h2);
 }
 
+h3 {
+    @include font-size($fs-h3);
+}
+
 h4 {
     @include font-size($fs-h4);
 }
@@ -360,7 +364,30 @@ body {
     }
 }
 
+.user-profile {
+    .user-img {
+        width: 72px;
+        height: 72px;
+        object-fit: cover;
+    }
+}
 
+.edit-user-profile {
+    .previous-page {
+        width: 90px;
+    }
+    .user-img {
+        width: 75px;
+        height: 75px;
+        object-fit: cover;
+    }
+}
+
+.error-page {
+    img {
+        max-width: 500px;
+    }
+}
 
 @media screen and (min-width: $md) {
     .cat-wiki-title {

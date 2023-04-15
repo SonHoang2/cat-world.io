@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { baseURL } from "./App";
+import { motion } from "framer-motion";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -20,6 +21,7 @@ export default function Login() {
                 headers: {'Content-Type': 'application/json'},
             });
             const data = await res.json();
+            console.log(data);
             if (data.errors) {
                 setEmailError(data.errors.email);
                 setPasswordError(data.errors.password);
@@ -35,7 +37,12 @@ export default function Login() {
     }
 
     return (
-        <div className='container-login d-flex align-items-center justify-content-center'>
+        <motion.div 
+            className='container-login d-flex align-items-center justify-content-center'
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{opacity: 0}}
+        >
             <div className='login p-5'>
                 <h2 className='mb-5 fw-semibold text-center'>Login</h2>
                 <form onSubmit={handleSubmit}>
@@ -69,7 +76,9 @@ export default function Login() {
                         />
                     </div>
                     <div className="invalid-feedback d-block">{passwordError}</div>
-                    <input 
+                    <motion.input
+                        whileHover={{ opacity: 0.8 }}
+                        whileTap={{ scale: 0.95 }}
                         type="submit"
                         value='Login'
                         className='w-100 bg-primary text-white border-0 rounded-3 py-2 my-4'
@@ -77,7 +86,11 @@ export default function Login() {
                 </form>
                 <h5 className='text-center mb-3 text-gray'>or continue with these social profile</h5>
                 <div className="social-contact d-flex justify-content-center mb-3">
-                    <div className='mx-2'>
+                    <div className='mx-2' onClick={() => {
+                        // fetch(baseURL + '/login/google', {
+                        //     method: 'GET'
+                        // })
+                    }}>
                         <img src="./img/Google.svg" alt="Google Icon" />
                     </div>
                     <div className='mx-2'>
@@ -96,6 +109,6 @@ export default function Login() {
                     </Link>
                 </h5>
             </div>
-        </div>
+        </motion.div>
     )
 }

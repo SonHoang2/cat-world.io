@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { baseURL } from "./App";
+import { motion } from "framer-motion";
+
 
 export default function Signup() {
     const [email, setEmail] = useState("");
@@ -35,7 +37,12 @@ export default function Signup() {
     }
 
     return (
-        <div className='container-login d-flex align-items-center justify-content-center'>
+        <motion.div 
+            className='container-login d-flex align-items-center justify-content-center'
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{opacity: 0}}
+        >
             <div className='login p-5'>
             <h2 className='mb-5 fw-semibold text-center'>Sign up</h2>
                 <form onSubmit={handleSubmit}>
@@ -96,6 +103,6 @@ export default function Signup() {
                     </Link>
                 </h5>
             </div>
-        </div>
+        </motion.div>
     )
 }

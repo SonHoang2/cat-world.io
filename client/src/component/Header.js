@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useState } from "react";
 
-export default function Header () {
+export default function Header (props) {
     const [userBox, setUserBox] = useState(false)
     const user = localStorage.getItem('user');
     return (
@@ -25,32 +25,46 @@ export default function Header () {
                             className="user__container-img" 
                             onClick={() => setUserBox(prev => !prev)}
                         >
-                            <img src="/img/user-image.jpg" className="user-img rounded-circle"/>
+                            <img src="/img/user-image.png" className="user-img rounded-circle"/>
                         </motion.div>
                         {userBox && 
                             <motion.div 
                                 initial={{ opacity: 0.6 }}
                                 animate={{ opacity: 1 }}
-                                className="user-box position-absolute bg-white rounded-3"
+                                className="user-box position-absolute bg-white rounded-3 p-2"
                             >
-                                <div className="user-info d-flex align-items-center p-3">
-                                    <img src="/img/user-image.jpg" className="user-img rounded-circle"/>
-                                    <h4 className="user-name ps-3">Son Hoang</h4>
-                                </div>
-                                <div className="user-box__item--hover d-flex align-items-center p-3 rounded-3" onClick={() => {
-                                    localStorage.removeItem('user');
-                                    window.location.reload(false);
-                                }}>
-                                    <span className="material-symbols-outlined">logout</span>
-                                    <h5 className="ps-2">Log Out</h5>
-                                </div>
+                                <Link to='/user' className="text-decoration-none text-reset">
+                                    <motion.div 
+                                        whileTap={{ scale: 0.95 }}
+                                        transition={{duration: 0.1}}
+                                        className="user-box__item--hover user-info d-flex align-items-center p-3 rounded-3">
+                                        <img src="/img/user-image.png" className="user-img rounded-circle"/>
+                                        <h4 className="user-name ps-3">Son Hoang</h4>
+                                    </motion.div>
+                                </Link>
+                                <motion.div 
+                                    whileTap={{ scale: 0.95 }}
+                                    transition={{duration: 0.1}}
+                                    className="user-box__item--hover d-flex align-items-center p-3 rounded-3" 
+                                    onClick={() => {
+                                        localStorage.removeItem('user');
+                                        window.location.reload(false);
+                                    }}
+                                >
+                                    <span className="material-symbols-outlined text-danger">logout</span>
+                                    <h5 className="ps-2 text-danger">Log Out</h5>
+                                </motion.div>
                             </motion.div>
                         }
                     </div> :
                     <Link to="/login" className="text-decoration-none">
-                        <div className="rounded btn d-flex align-items-center">
+                        <motion.div 
+                            className="rounded btn d-flex align-items-center"
+                            whileHover={{ opacity: 0.8 }}
+                            whileTap={{ scale: 0.95 }}
+                        >
                             <h4 className="text-white">Login</h4>
-                        </div>
+                        </motion.div>
                     </Link>
                 }
             </div>

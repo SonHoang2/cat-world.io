@@ -3,6 +3,6 @@ const catControllers = require('../controllers/catControllers');
 
 const router = Router();
 
-router.get('/show', catControllers.show_get);
+router.get('/show', catControllers.show);
 
 module.exports = router;
