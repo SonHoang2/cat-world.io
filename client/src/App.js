@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, createContext} from "react"
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Home from './Home';
 import CatDetail from './CatDetail';
@@ -13,6 +13,7 @@ import EditUserProfile from "./EditUserProfile";
 import ErrorPage from "./component/ErrorPage";
 
 export const baseURL = process.env.REACT_APP_BASE_URL;
+export const UserContext = createContext();
 
 export default function App() {
     const [catData, setCatData] = useState([]);
@@ -20,6 +21,7 @@ export default function App() {
     const [seeMore, setSeeMore] = useState(true);
     const userID = localStorage.getItem('user')
     const location = useLocation();
+
     const cards = () => {
         const arr = [];
         if (catData.length) {
@@ -82,64 +84,66 @@ export default function App() {
         getUserData();
     }, [userID])
     return (
-        <AnimatePresence mode="wait">
-            <Routes location={location} key={location.pathname}>
-                <Route 
-                    path='/'
-                    element={<Home 
-                                catData={catData}
-                                setCatData={setCatData}
-                                seeMore={seeMore}
-                                setSeeMore={setSeeMore}
-                                cards={cards()}
-                            />} 
-                />
-                <Route 
-                    path="/mobile-search"
-                    element={<MobileSearch
-                        catData={catData}
-                    />}
-                />
-                {catData.map(item => (
+        <UserContext.Provider value={userData}>
+            <AnimatePresence mode="wait">
+                <Routes location={location} key={location.pathname}>
                     <Route 
-                        path={'/' + item.name}
-                        key={item.name}
-                        element={
-                            <CatDetail
-                                {...item}
-                                catData={catData} 
-                                setCatData={setCatData}
-                            />
-                        }
+                        path='/'
+                        element={<Home 
+                                    catData={catData}
+                                    setCatData={setCatData}
+                                    seeMore={seeMore}
+                                    setSeeMore={setSeeMore}
+                                    cards={cards()}
+                                />} 
                     />
-                ))}
-                <Route 
-                    path='/login'   
-                    element={<Login />}
-                />
-                <Route 
-                    path='/signup'   
-                    element={<Signup />}
-                />
-                {
-                    userID &&
+                    <Route 
+                        path="/mobile-search"
+                        element={<MobileSearch
+                            catData={catData}
+                        />}
+                    />
+                    {catData.map(item => (
+                        <Route 
+                            path={'/' + item.name}
+                            key={item.name}
+                            element={
+                                <CatDetail
+                                    {...item}
+                                    catData={catData} 
+                                    setCatData={setCatData}
+                                />
+                            }
+                        />
+                    ))}
+                    <Route 
+                        path='/login'   
+                        element={<Login />}
+                    />
+                    <Route 
+                        path='/signup'   
+                        element={<Signup />}
+                    />
+                    {
+                        userID &&
+                        <Route
+                            path='/user'
+                            element={
+                                <User
+                                    {...userData}
+                                />}
+                        />
+                    }
+                    <Route 
+                        path="/user/edit"
+                        element={<EditUserProfile/>}
+                    />
                     <Route
-                        path='/user'
-                        element={
-                            <User
-                                {...userData}
-                            />}
+                        path='*'
+                        element={<ErrorPage />}
                     />
-                }
-                <Route 
-                    path="/user/edit"
-                    element={<EditUserProfile/>}
-                />
-                <Route
-                    path='*'
-                    element={<ErrorPage />}
-                />
-            </Routes>
-        </AnimatePresence>
+                </Routes>
+            </AnimatePresence>
+        </UserContext.Provider>
     )
 }

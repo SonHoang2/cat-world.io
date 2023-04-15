@@ -38,7 +38,12 @@ export default function EditUserProfile () {
             <div className="pt-5"/>
             <div className="pt-5"/>
             <div className="pt-5"/>
-            <div className="container-md">
+            <motion.div 
+                className="container-md"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{opacity: 0}
+            }>
                 <motion.div 
                     className="pb-4 previous-page"
                     whileTap={{ scale: 0.95 }}
@@ -56,7 +61,7 @@ export default function EditUserProfile () {
                     <h5 className="text-secondary">Changes will be reflected to every services</h5>
                     <div className="pt-4 d-flex align-items-center">
                         <div className="pe-5">
-                            <img className="user-img" src="/img/user-image.png"/>
+                            <img className="user-img rounded" src="/img/user-image.png"/>
                         </div>
                         <button type="button" className="btn btn-primary">CHANGE PHOTO</button>
                     </div>
@@ -118,7 +123,7 @@ export default function EditUserProfile () {
                         className='bg-primary text-white border-0 rounded-3 px-4 py-2 my-4'
                     />
                 </form>
-            </div>
+            </motion.div>
         </div>
     )
 }

@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { UserContext } from "../App";
 
-export default function Header (props) {
+export default function Header () {
     const [userBox, setUserBox] = useState(false)
-    const user = localStorage.getItem('user');
+    const userID = localStorage.getItem('user');
+    const user = useContext(UserContext);
+
     return (
         <div className="header container-fluid position-fixed bg-white py-2">
             <div className="mx-lg-5 d-flex align-items-center justify-content-between">
@@ -16,7 +19,7 @@ export default function Header (props) {
                         </div>
                     </Link>
                 </div>
-                {user ?
+                {userID ?
                     <div className="user position-relative">
                         <motion.div 
                             whileHover={{ opacity: 0.8 }}
@@ -39,7 +42,7 @@ export default function Header (props) {
                                         transition={{duration: 0.1}}
                                         className="user-box__item--hover user-info d-flex align-items-center p-3 rounded-3">
                                         <img src="/img/user-image.png" className="user-img rounded-circle"/>
-                                        <h4 className="user-name ps-3">Son Hoang</h4>
+                                        <h4 className="user-name ps-3">{user.name}</h4>
                                     </motion.div>
                                 </Link>
                                 <motion.div 
