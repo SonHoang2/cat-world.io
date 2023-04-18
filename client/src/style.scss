@@ -55,11 +55,6 @@ body {
     color: $color-btn;
 }
 
-.btn {
-    height: 50px;
-    background-color: #0066ff;
-}
-
 .btn:hover,
 .btn:active {
     background-color: #9bc1ff !important;
@@ -386,6 +381,18 @@ body {
 .error-page {
     img {
         max-width: 500px;
+    }
+}
+
+.cart {
+    .empty-shopping-img {
+        width: 190px;
+    }
+
+    .product-img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
     }
 }
 

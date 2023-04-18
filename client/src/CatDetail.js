@@ -5,12 +5,11 @@ import { useEffect } from "react"
 import Evaluate from "./component/Evaluate"
 import { motion } from "framer-motion"
 
-
 export default function CatDetail(props) {
     useEffect(() => {
         window.scrollTo(0, 0);
     })
-    function stadiums(item) {
+    const stadiums = item => {
         const arr = []
         const remain = 5 - item
 
@@ -28,7 +27,7 @@ export default function CatDetail(props) {
         }
         return arr
     }
-    function cards () {
+    const cards = () => {
         const arr = []
         for (let i = 0; i < 9; i++) {
             if (props.catData[i].id !== props.id) {
@@ -73,6 +72,8 @@ export default function CatDetail(props) {
                         <Evaluate name="Temperament:" data={props.temperament}/>
                         <Evaluate name="Origin:" data={props.origin}/>
                         <Evaluate name="Life Span:" data={props.life_span} extra='years'/>
+                        <Evaluate name="Price: " data={props.price} extra='$'/>
+                        <Evaluate name="Goods in stock: " data={props.quantity}/>
                         <Evaluate name="Adaptability:" stadiums={stadiums(props.adaptability)} />
                         <Evaluate name="Affection level:" stadiums={stadiums(props.affection_level)} />
                         <Evaluate name="Child Friendly:" stadiums={stadiums(props.child_friendly)} />
@@ -81,6 +82,37 @@ export default function CatDetail(props) {
                         <Evaluate name="Health issues:" stadiums={stadiums(props.health_issues)} />
                         <Evaluate name="Social needs:" stadiums={stadiums(props.social_needs)} />
                         <Evaluate name="Stranger friendly:" stadiums={stadiums(props.stranger_friendly)} />
+                        <div>
+                            <motion.button 
+                                whileHover={{ opacity: 0.8 }}
+                                whileTap={{ scale: 0.95 }}
+                                type="button" 
+                                className="btn btn-primary d-flex align-items-center" 
+                                onClick={() => {
+                                    const item = {product: {id: props.id, name: props.name , price: props.price, image: props.image_url}, quantity: 1}
+                                    props.setCart(prev => {
+                                        let newCart
+                                        const found = prev.find(element => {
+                                            return element.product.id === item.product.id
+                                        });
+                                        // cộng thêm số lượng hàng 
+                                        if (found) {
+                                            found.quantity += 1;
+                                            newCart = [...prev]
+                                        } else {
+                                            newCart = [...prev, item]
+                                        }
+                                        // save to local storage
+                                        const jsonCart = JSON.stringify(newCart)
+                                        localStorage.setItem('Cart', jsonCart)
+                                        return newCart
+                                    }) 
+                                }}
+                            >
+                                <span className="material-symbols-outlined pe-2">add_shopping_cart</span>
+                                Add to cart
+                            </motion.button>
+                        </div>
                     </div>
                 </div>
                 <div className="container-fluid my-5">

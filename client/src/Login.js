@@ -12,7 +12,6 @@ export default function Login() {
     
     const handleSubmit = async e => {
         e.preventDefault();
-        console.log(emailError, passwordError);
         try {
             const res = await fetch(baseURL + '/login', {
                 method: 'POST',

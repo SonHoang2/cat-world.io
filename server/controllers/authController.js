@@ -1,9 +1,9 @@
-var validator = require('validator');
+const validator = require('validator');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken')
 require('dotenv/config');
 
-function handleErrors(err) {
+const handleErrors = err =>{
     console.log(err.message, err.code);
     let errors = { email: "", password: ""};
     
@@ -25,6 +25,8 @@ function handleErrors(err) {
     return errors;
 }
 
+module.exports = {handleErrors}
+
 const maxAge = 86400 * 3;
 function createToken(id) {
     return jwt.sign({id}, process.env.JWT_SECRET,{
@@ -33,7 +35,7 @@ function createToken(id) {
 }
 
 module.exports.signup_post = async (req, res) => {
-    const { email, password} = req.body;
+    const {name, email, password} = req.body;
     try {
         if (!validator.isEmail(email)) {
             throw Error('invalid email');
@@ -45,7 +47,7 @@ module.exports.signup_post = async (req, res) => {
         if (checkEmail.length !== 0) {
             throw Error('that email is already registered');
         }
-        const user = await User.create(email,password);
+        const user = await User.create(name, email, password);
         const token = createToken(user.id);
         res.cookie('jwt', token, {
             httpOnly: true,
@@ -83,4 +85,3 @@ module.exports.login_post = async (req, res) => {
         res.status(400).json({errors});
     }
 }
-

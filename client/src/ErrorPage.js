@@ -12,7 +12,7 @@ export default function ErrorPage () {
                 <h4 className="pt-5 pb-4 text-center">We searched high and low but couldn’t find what you’re looking for. Let’s find a better place for you to go.</h4>
                 <button 
                     type="button" 
-                    class="btn btn-primary px-4"
+                    class="btn btn-primary"
                     onClick={() => navigate("/")}
                 >
                     GO TO HOMEPAGE

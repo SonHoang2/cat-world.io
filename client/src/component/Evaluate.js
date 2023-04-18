@@ -21,7 +21,6 @@ export default function Evaluate(props) {
             )
         }
     }
-
     return (
         <div>
             {data()}

@@ -25,16 +25,14 @@ module.exports.edit = async (item) => {
 
 module.exports.findByEmail = findByEmail;
 
-module.exports.create = async (email, password) => {
+module.exports.create = async (name, email, password) => {
     // hash password 
     const uuid = crypto.randomUUID();
     const salt = await bcrypt.genSalt();
     password = await bcrypt.hash(password, salt);
-    const [rows] = await pool.query(`INSERT INTO users(id,email,password) VALUES ('${uuid}','${email}','${password}')`)
+    const [rows] = await pool.query(`INSERT INTO users(id,name,email,password) VALUES ('${uuid}','${name}','${email}','${password}')`)
     return {
-        id: uuid,
-        email: email,
-        password: password,
+        id: uuid
     }
 }
 

@@ -28,7 +28,7 @@ export default function Header () {
                             className="user__container-img" 
                             onClick={() => setUserBox(prev => !prev)}
                         >
-                            <img src="/img/user-image.png" className="user-img rounded-circle"/>
+                            <img src={user.avatar} className="user-img rounded-circle"/>
                         </motion.div>
                         {userBox && 
                             <motion.div 
@@ -41,8 +41,17 @@ export default function Header () {
                                         whileTap={{ scale: 0.95 }}
                                         transition={{duration: 0.1}}
                                         className="user-box__item--hover user-info d-flex align-items-center p-3 rounded-3">
-                                        <img src="/img/user-image.png" className="user-img rounded-circle"/>
+                                        <img src={user.avatar} className="user-img rounded-circle"/>
                                         <h4 className="user-name ps-3">{user.name}</h4>
+                                    </motion.div>
+                                </Link>
+                                <Link to="/cart" className="text-decoration-none text-reset">
+                                    <motion.div 
+                                        whileTap={{ scale: 0.95 }}
+                                        transition={{duration: 0.1}}
+                                        className="user-box__item--hover user-info d-flex align-items-center p-3 rounded-3">
+                                        <span class="material-symbols-outlined">shopping_cart</span>
+                                        <h4 className="ps-2">Cart</h4>
                                     </motion.div>
                                 </Link>
                                 <motion.div 
@@ -61,13 +70,13 @@ export default function Header () {
                         }
                     </div> :
                     <Link to="/login" className="text-decoration-none">
-                        <motion.div 
-                            className="rounded btn d-flex align-items-center"
+                        <motion.button 
+                            className="rounded btn btn-primary d-flex align-items-center py-2"
                             whileHover={{ opacity: 0.8 }}
                             whileTap={{ scale: 0.95 }}
                         >
                             <h4 className="text-white">Login</h4>
-                        </motion.div>
+                        </motion.button>
                     </Link>
                 }
             </div>

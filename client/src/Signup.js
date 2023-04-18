@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 
 
 export default function Signup() {
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [emailError, setEmailError] = useState("");
@@ -17,7 +18,7 @@ export default function Signup() {
         try {
             const res = await fetch(baseURL + '/signup', {
                 method: 'POST',
-                body: JSON.stringify({email, password}),
+                body: JSON.stringify({name, email, password}),
                 credentials: 'include', 
                 headers: {'Content-Type': 'application/json'},
             });
@@ -48,14 +49,28 @@ export default function Signup() {
                 <form onSubmit={handleSubmit}>
                     <div className='w-100 border border-secondary rounded-3 d-flex align-items-center mt-3'>
                         <label className='d-flex py-2' htmlFor="email">
+                            <i className="material-symbols-outlined icon px-2">person</i>
+                        </label>
+                        <input 
+                            className='login__input rounded-3 py-2 border-0 h-100 flex-grow-1' 
+                            type="text" 
+                            placeholder='Name' 
+                            id='Name' 
+                            name='Name'
+                            onChange={e => setName(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className='w-100 border border-secondary rounded-3 d-flex align-items-center mt-3'>
+                        <label className='d-flex py-2' htmlFor="email">
                             <i className="material-symbols-outlined icon px-2">mail</i>
                         </label>
                         <input 
                             className='login__input rounded-3 py-2 border-0 h-100 flex-grow-1' 
                             type="text" 
                             placeholder='Email' 
-                            id='email' 
-                            name='email'
+                            id='Email' 
+                            name='Email'
                             onChange={e => setEmail(e.target.value)}
                             required
                         />

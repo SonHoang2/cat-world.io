@@ -8,9 +8,10 @@ import MobileSearch from "./MobileSearch";
 import Login from "./Login";
 import Signup from "./Signup"
 import { AnimatePresence } from "framer-motion";
+import Cart from "./Cart"
 import User from "./User";
 import EditUserProfile from "./EditUserProfile";
-import ErrorPage from "./component/ErrorPage";
+import ErrorPage from "./ErrorPage";
 
 export const baseURL = process.env.REACT_APP_BASE_URL;
 export const UserContext = createContext();
@@ -21,6 +22,11 @@ export default function App() {
     const [seeMore, setSeeMore] = useState(true);
     const userID = localStorage.getItem('user')
     const location = useLocation();
+    // giỏ hàng 
+    const [cart, setCart] = useState(() => {
+        const storageJob = JSON.parse(localStorage.getItem('Cart'))
+        return storageJob ?? []
+    });
 
     const cards = () => {
         const arr = [];
@@ -61,7 +67,6 @@ export default function App() {
     const getUserData = async () => {
         try {
             if (userID) {
-                console.log(userID);
                 const res = await fetch(baseURL + '/user', {
                     method: 'POST',
                     body: JSON.stringify({userID}),
@@ -112,10 +117,19 @@ export default function App() {
                                     {...item}
                                     catData={catData} 
                                     setCatData={setCatData}
+                                    setCart={setCart}
+                                    cart={cart}
                                 />
                             }
                         />
                     ))}
+                    <Route 
+                        path="/cart"
+                        element={
+                            <Cart 
+                                cart={cart}
+                            />}
+                    />
                     <Route 
                         path='/login'   
                         element={<Login />}

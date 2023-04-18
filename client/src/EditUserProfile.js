@@ -2,7 +2,8 @@ import Header from "./component/Header"
 import { Link, useNavigate } from "react-router-dom"
 import { motion } from "framer-motion"
 import { baseURL } from "./App";
-import { useState } from "react"
+import { useState, useContext } from "react"
+import { UserContext } from "./App";
 
 export default function EditUserProfile () {
     const [name, setName] = useState("");
@@ -10,8 +11,12 @@ export default function EditUserProfile () {
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
     const userID = localStorage.getItem('user')
     const navigate = useNavigate();
+    const user = useContext(UserContext);
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -23,7 +28,15 @@ export default function EditUserProfile () {
                 headers: {'Content-Type': 'application/json'},
             });
             const data = await res.json();
-            navigate("/login")
+            console.log(data);
+            if (data.errors) {
+                setEmailError(data.errors.email);
+                setPasswordError(data.errors.password);
+            }
+            if (data === "success") {
+                localStorage.removeItem('user')
+                navigate("/login")
+            }
         }
         catch(err) {
             console.log(err);
@@ -61,18 +74,19 @@ export default function EditUserProfile () {
                     <h5 className="text-secondary">Changes will be reflected to every services</h5>
                     <div className="pt-4 d-flex align-items-center">
                         <div className="pe-5">
-                            <img className="user-img rounded" src="/img/user-image.png"/>
+                            <img className="user-img rounded" src={user.avatar}/>
                         </div>
                         <button type="button" className="btn btn-primary">CHANGE PHOTO</button>
                     </div>
                     <div className="pt-4 d-flex flex-column">
-                        <label className="form-label" htmlFor="user-name">Name</label>
+                        <label className="form-label me-3" htmlFor="user-name">Name</label>
                         <input 
                             type="text"
                             id='user-name'
                             className="form-control"
                             onChange={e => setName(e.target.value)}
                             placeholder='Enter your name...' 
+                            required
                         />
                     </div>
                     <div className="pt-4 d-flex flex-column">
@@ -93,6 +107,7 @@ export default function EditUserProfile () {
                             className="form-control"
                             onChange={e => setPhone(e.target.value)}
                             placeholder='Enter your phone...' 
+                            required
                         />
                     </div>
                     <div className="pt-4 d-flex flex-column">
@@ -102,9 +117,11 @@ export default function EditUserProfile () {
                             id='user-email'
                             className="form-control"
                             onChange={e => setEmail(e.target.value)}
-                            placeholder='Enter your bio...' 
+                            placeholder='Enter your Email...' 
+                            required
                         />
                     </div>
+                    <div className="invalid-feedback d-block">{emailError}</div>
                     <div className="pt-4 d-flex flex-column">
                         <label className="form-label" htmlFor="user-password">Password</label>
                         <input
@@ -112,9 +129,11 @@ export default function EditUserProfile () {
                             id='user-password'
                             className="form-control"
                             onChange={e => setPassword(e.target.value)}
-                            placeholder='Enter your bio...' 
+                            placeholder='Enter your Password...' 
+                            required
                         />
                     </div>
+                    <div className="invalid-feedback d-block">{passwordError}</div>
                     <motion.input
                         whileHover={{ opacity: 0.8 }}
                         whileTap={{ scale: 0.95 }}
