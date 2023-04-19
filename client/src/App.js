@@ -123,13 +123,13 @@ export default function App() {
                             }
                         />
                     ))}
-                    <Route 
-                        path="/cart"
-                        element={
-                            <Cart 
-                                cart={cart}
-                            />}
-                    />
+                    {
+                        userID &&
+                        <Route 
+                            path="/cart"
+                            element={<Cart cart={cart} setCart={setCart} />}
+                        />
+                    }
                     <Route 
                         path='/login'   
                         element={<Login />}

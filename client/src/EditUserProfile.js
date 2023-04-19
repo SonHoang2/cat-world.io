@@ -7,7 +7,7 @@ import { UserContext } from "./App";
 
 export default function EditUserProfile () {
     const [name, setName] = useState("");
-    const [bio, setBio] = useState("");
+    const [address, setAddress] = useState("");
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -23,7 +23,7 @@ export default function EditUserProfile () {
         try {
             const res = await fetch(baseURL + '/user/edit', {
                 method: 'POST',
-                body: JSON.stringify({userID, name, bio, phone, email, password}),
+                body: JSON.stringify({userID, name, address, phone, email, password}),
                 credentials: 'include', 
                 headers: {'Content-Type': 'application/json'},
             });
@@ -90,13 +90,13 @@ export default function EditUserProfile () {
                         />
                     </div>
                     <div className="pt-4 d-flex flex-column">
-                        <label className="form-label" htmlFor="user-bio">Bio</label>
+                        <label className="form-label" htmlFor="user-address">Address</label>
                         <input 
                             type="text" 
-                            id='user-bio'
+                            id='user-address'
                             className="form-control"
-                            onChange={e => setBio(e.target.value)}
-                            placeholder='Enter your bio...' 
+                            onChange={e => setAddress(e.target.value)}
+                            placeholder='Enter your address...' 
                         />
                     </div>
                     <div className="pt-4 d-flex flex-column">

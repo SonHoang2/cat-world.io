@@ -51,8 +51,8 @@ export default function User() {
                         <h5>{user.name}</h5>
                     </div>
                     <div className="d-flex border-bottom border-end border-start border-dark border-opacity-25 py-4 px-5">
-                        <h5 className="d-flex align-content-center text-secondary text-opacity-75 col-6 col-sm-4">BIO</h5>
-                        <h5>{user.bio}</h5>
+                        <h5 className="d-flex align-content-center text-secondary text-opacity-75 col-6 col-sm-4">ADDRESS</h5>
+                        <h5>{user.address}</h5>
                     </div>
                     <div className="d-flex border-bottom border-end border-start border-dark border-opacity-25 py-4 px-5">
                         <h5 className="d-flex align-content-center text-secondary text-opacity-75 col-6 col-sm-4">PHONE</h5>

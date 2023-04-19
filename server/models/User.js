@@ -18,7 +18,7 @@ module.exports.edit = async (item) => {
     item.password = await bcrypt.hash(item.password, salt);
 
     const [rows] = await pool.query(
-        `UPDATE users SET name = '${item.name}', bio = '${item.bio}', phone = '${item.phone}', email = '${item.email}', password = '${item.password}' WHERE id = '${item.userID}'`
+        `UPDATE users SET name = '${item.name}', address = '${item.address}', phone = '${item.phone}', email = '${item.email}', password = '${item.password}' WHERE id = '${item.userID}'`
     );
     return rows
 }

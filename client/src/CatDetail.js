@@ -1,14 +1,15 @@
 import Header from "./component/Header"
 import Footer from "./component/Footer"
 import { Link } from "react-router-dom"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import Evaluate from "./component/Evaluate"
 import { motion } from "framer-motion"
 
 export default function CatDetail(props) {
+    const [count, setCount] = useState(1)
     useEffect(() => {
         window.scrollTo(0, 0);
-    })
+    }, [])
     const stadiums = item => {
         const arr = []
         const remain = 5 - item
@@ -82,14 +83,28 @@ export default function CatDetail(props) {
                         <Evaluate name="Health issues:" stadiums={stadiums(props.health_issues)} />
                         <Evaluate name="Social needs:" stadiums={stadiums(props.social_needs)} />
                         <Evaluate name="Stranger friendly:" stadiums={stadiums(props.stranger_friendly)} />
-                        <div>
+                        <div className="">
+                            <div className="d-flex align-items-center pb-3">
+                                <h5 className="fw-bold d-inline pe-3">Quantity: </h5>
+                                <button type="button" class="btn btn-primary py-0 border border-dark" onClick={() => {
+                                    if (count > 1) {
+                                        setCount(prev => prev - 1)
+                                    }
+                                }}>-</button>
+                                <h4 className="px-2 mx-1 border border-dark rounded" >{count}</h4>
+                                <button type="button" class="btn btn-primary py-0 border border-dark" onClick={() => {
+                                    if (count < props.quantity) {
+                                        setCount(prev => prev + 1)                               
+                                    }
+                                }}>+</button>
+                            </div>
                             <motion.button 
                                 whileHover={{ opacity: 0.8 }}
                                 whileTap={{ scale: 0.95 }}
                                 type="button" 
                                 className="btn btn-primary d-flex align-items-center" 
                                 onClick={() => {
-                                    const item = {product: {id: props.id, name: props.name , price: props.price, image: props.image_url}, quantity: 1}
+                                    const item = {product: {id: props.id, name: props.name , price: props.price, image: props.image_url}, quantity: count, goodInStock: props.quantity}
                                     props.setCart(prev => {
                                         let newCart
                                         const found = prev.find(element => {

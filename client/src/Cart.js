@@ -1,7 +1,7 @@
 import Header from "./component/Header"
 import { motion } from "framer-motion";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Cart(props) {
     const navigate = useNavigate();
@@ -9,7 +9,14 @@ export default function Cart(props) {
     const [isCheck, setIsCheck] = useState([]);
     const [subtotal, setSubtotal] = useState(0);
     const [total, setTotal] = useState(0);
-    
+    const [thankForShopping, setThankForShopping] = useState(false);
+    const [buyErr, setBuyErr] = useState('')
+    useEffect(() => {
+        setTimeout(() => {
+            setThankForShopping(false)
+        }, 1000)
+    }, [thankForShopping])
+
     const cartList = () => {
         const arr = props.cart.map(item => (
             <div key={item.product.id} className="d-flex pb-4 align-items-center">
@@ -41,14 +48,67 @@ export default function Cart(props) {
                                 }
                         }}/>
                     </div>
-                    <div className="pe-3">
-                        <img src={`/img/` + item.product.image + '.jpg'} className="product-img rounded"/>
-                    </div>
-                    <h4 className="pt-1">{item.product.name}</h4>
+                    <Link to={'/' + item.product.name} className="text-reset text-decoration-none d-flex">
+                        <div className="pe-3">
+                            <img src={`/img/` + item.product.image + '.jpg'} className="product-img rounded"/>
+                        </div>
+                        <h4 className="pt-1">{item.product.name}</h4>
+                    </Link>
                 </div>
                 <h4 className="col-2">{item.product.price}$</h4>
-                <h4 className="col-2">{item.quantity}</h4>
+                <div className="col-2 d-flex align-items-center">
+                    <button type="button" class="btn btn-primary py-0 border border-dark" onClick={() => {
+                        props.setCart(prev => {
+                            let newCart
+                            const found = prev.find(element => {
+                                return element.product.id === item.product.id
+                            });
+                            // cộng thêm số lượng hàng
+                            if (found.quantity > 0) {
+                                found.quantity -= 1
+                            }
+                            newCart = [...prev]
+                            // save to local storage
+                            const jsonCart = JSON.stringify(newCart)
+                            localStorage.setItem('Cart', jsonCart)
+                            return newCart
+                        }) 
+                    }}>-</button>
+                    <h4 className="px-2 mx-1 border border-dark rounded" >{item.quantity}</h4>
+                    <button type="button" class="btn btn-primary py-0 border border-dark" onClick={() => {
+                        props.setCart(prev => {
+                            let newCart
+                            const found = prev.find(element => {
+                                return element.product.id === item.product.id
+                            });
+                            // cộng thêm số lượng hàng
+                            if (found.quantity < found.goodInStock) {
+                                found.quantity += 1
+                            }
+                            newCart = [...prev]
+                            // save to local storage
+                            const jsonCart = JSON.stringify(newCart)
+                            localStorage.setItem('Cart', jsonCart)
+                            return newCart
+                        }) 
+                    }}>+</button>
+                </div>
                 <h4 className="col-2">{item.quantity * item.product.price}$</h4>
+                <motion.button 
+                    type="button" 
+                    class="btn btn-light p-1"
+                    whileHover={{ opacity: 0.8 }}
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ type: "spring", stiffness: 300}}
+                    onClick={() => {
+                        const newCart = props.cart.filter(element => element.product.id !== item.product.id)
+                        props.setCart(newCart)
+                        const jsonCart = JSON.stringify(newCart)
+                        localStorage.setItem('Cart', jsonCart)
+                }}
+                >
+                    <span className="material-symbols-outlined">delete</span>
+                </motion.button>
             </div>
         ))
         return arr
@@ -58,6 +118,13 @@ export default function Cart(props) {
             <Header /> 
             <div className="pt-5"/>
             <div className="pt-3"/>
+            {   thankForShopping &&
+                <div className="position-fixed w-100 h-100 bg-light d-flex justify-content-center align-items-center">
+                    <div className="bg-white p-5 rounded border">
+                        <h1>Thank for Shopping</h1>
+                    </div>
+                </div>
+            }
             <motion.div 
                 className="user-profile container-xl"
                 initial={{ opacity: 0 }}
@@ -65,7 +132,7 @@ export default function Cart(props) {
                 exit={{opacity: 0}}
             >
                 <h3 className="py-3">Cart</h3>
-                {props.cart ? 
+                {props.cart.length ? 
                 <div className="d-flex">
                     <div className="col-9">
                         <div className="d-flex p-3 mb-4 bg-white rounded">
@@ -84,7 +151,6 @@ export default function Cart(props) {
                                             setTotal(0);
                                         } else {
                                             const sum = array.reduce((accumulator, currentValue) => {
-                                                console.log(accumulator, currentValue);
                                                 return accumulator + currentValue.price * currentValue.quantity
                                             } , 0)
                                             setSubtotal(sum);
@@ -101,6 +167,7 @@ export default function Cart(props) {
                             <h4 className="pe-5 col-2">Price</h4>
                             <h4 className="pe-5 col-2">Quantity</h4>
                             <h4 className="pe-5 col-2">Total</h4>
+                            <span className="material-symbols-outlined">delete</span>
                         </div>
                         <div className="bg-white rounded p-3">
                             {cartList()}
@@ -127,14 +194,21 @@ export default function Cart(props) {
                             whileTap={{ scale: 0.95 }}
                             transition={{ type: "spring", stiffness: 300}}
                             onClick={() => {
-                                setSubtotal(0)
-                                setTotal(0)
-                                setIsCheck([])
-                                setIsCheckAll(false);
+                                if (isCheck.length > 0) {
+                                    setSubtotal(0);
+                                    setTotal(0);
+                                    setIsCheck([]);
+                                    setIsCheckAll(false);
+                                    props.setCart([]);
+                                    setThankForShopping(true)
+                                } else {
+                                    setBuyErr('You need to buy at least one a cat');
+                                }
                             }}
                         >
                             Buy
                         </motion.button>
+                        <div className="invalid-feedback d-block text-center">{buyErr}</div>
                     </div>
                 </div>
                 :
