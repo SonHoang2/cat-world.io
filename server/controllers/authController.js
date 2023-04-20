@@ -28,8 +28,8 @@ const handleErrors = err =>{
 module.exports = {handleErrors}
 
 const maxAge = 86400 * 3;
-function createToken(id) {
-    return jwt.sign({id}, process.env.JWT_SECRET,{
+function createToken(id, email, name, address, phone, avatar) {
+    return jwt.sign({id, email, name, address, phone, avatar}, process.env.JWT_SECRET,{
         expiresIn: maxAge
     })
 }
@@ -48,13 +48,8 @@ module.exports.signup_post = async (req, res) => {
             throw Error('that email is already registered');
         }
         const user = await User.create(name, email, password);
-        const token = createToken(user.id);
-        res.cookie('jwt', token, {
-            httpOnly: true,
-            secure: true,
-            maxAge: maxAge * 1000
-        })
-        res.status(201).json({user: user.id})
+        const token = createToken(user.id, user.email, user.name, user.address, user.phone, user.avatar);
+        res.status(201).json({jwt: token})
     }
     catch(err) {
         const errors = handleErrors(err)
@@ -71,17 +66,24 @@ module.exports.login_post = async (req, res) => {
         if (password.length < 6) {
             throw Error('invalid password')
         }
-        let user = await User.login(email, password);
-        const token = createToken(user.id);
-        res.cookie('jwt', token, {
-            httpOnly: true,
-            secure: true,
-            maxAge: maxAge * 1000
-        })
-        res.status(201).json({user: user.id})
+        const user = await User.login(email, password);
+        const token = createToken(user.id, user.email, user.name, user.address, user.phone, user.avatar);
+        res.status(201).json({jwt: token})
     }
     catch (err) {
         const errors = handleErrors(err)
         res.status(400).json({errors});
+    }
+}
+
+module.exports.google_login = async (req, res) => {
+    const {name, email, avatar} = req.body;
+    try {
+        const user = await User.google_login(name, email, avatar);
+        const token = createToken(user.id, user.email, user.name, user.address, user.phone, user.avatar);
+        console.log(token);
+        res.status(201).json({jwt: token})
+    } catch (err) {
+        console.log(err);
     }
 }

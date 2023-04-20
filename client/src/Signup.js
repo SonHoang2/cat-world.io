@@ -27,10 +27,10 @@ export default function Signup() {
                 setEmailError(data.errors.email);
                 setPasswordError(data.errors.password);
             }
-            if (data.user) {
-                localStorage.setItem('user', data.user);
+            if (data.jwt) {
+                localStorage.setItem('jwt', data.jwt);
                 navigate('/');
-            }   
+            }    
         }
         catch(err) {
             console.log(err);
@@ -97,21 +97,6 @@ export default function Signup() {
                         className='w-100 bg-primary text-white border-0 rounded-3 py-2 my-4'
                     />
                 </form>
-                <h5 className='text-center mb-3 text-gray'>or continue with these social profile</h5>
-                <div className="social-contact d-flex justify-content-center mb-3">
-                    <div className='mx-2'>
-                        <img src="./img/Google.svg" alt="" />
-                    </div>
-                    <div className='mx-2'>
-                        <img src="./img/Facebook.svg" alt="" />
-                    </div>
-                    <div className='mx-2'>
-                        <img src="./img/Gihub.svg" alt="" />
-                    </div>
-                    <div className='mx-2'>
-                        <img src="./img/Twitter.svg" alt="" />
-                    </div>
-                </div>
                 <h5 className='text-center text-gray'>Adready a member? 
                     <Link to='/login' className="mx-2"> 
                         Login

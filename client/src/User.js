@@ -6,7 +6,6 @@ import { UserContext } from "./App";
 
 export default function User() {
     const user = useContext(UserContext);
-
     return (
         <div>
             <Header />
@@ -43,7 +42,7 @@ export default function User() {
                     <div className="d-flex border-bottom border-end border-start border-dark border-opacity-25 py-4 px-5">
                         <h5 className="d-flex flex-wrap align-content-center text-secondary text-opacity-75 col-6 col-sm-4">PHOTO</h5>
                         <div>
-                            <img className="img-fluid user-img rounded" src={user.avatar}/>
+                            <img className="img-fluid user-img rounded" src={user.avatar || user.picture} referrerPolicy="no-referrer"/>
                         </div>
                     </div>
                     <div className="d-flex border-bottom border-end border-start border-dark border-opacity-25 py-4 px-5">

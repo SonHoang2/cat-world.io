@@ -57,7 +57,7 @@ export default function Cart(props) {
                 </div>
                 <h4 className="col-2">{item.product.price}$</h4>
                 <div className="col-2 d-flex align-items-center">
-                    <button type="button" class="btn btn-primary py-0 border border-dark" onClick={() => {
+                    <button type="button" className="btn btn-primary py-0 border border-dark" onClick={() => {
                         props.setCart(prev => {
                             let newCart
                             const found = prev.find(element => {
@@ -75,7 +75,7 @@ export default function Cart(props) {
                         }) 
                     }}>-</button>
                     <h4 className="px-2 mx-1 border border-dark rounded" >{item.quantity}</h4>
-                    <button type="button" class="btn btn-primary py-0 border border-dark" onClick={() => {
+                    <button type="button" className="btn btn-primary py-0 border border-dark" onClick={() => {
                         props.setCart(prev => {
                             let newCart
                             const found = prev.find(element => {
@@ -96,7 +96,7 @@ export default function Cart(props) {
                 <h4 className="col-2">{item.quantity * item.product.price}$</h4>
                 <motion.button 
                     type="button" 
-                    class="btn btn-light p-1"
+                    className="btn btn-light p-1"
                     whileHover={{ opacity: 0.8 }}
                     whileTap={{ scale: 0.95 }}
                     transition={{ type: "spring", stiffness: 300}}

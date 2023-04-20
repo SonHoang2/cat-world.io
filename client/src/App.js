@@ -12,6 +12,7 @@ import Cart from "./Cart"
 import User from "./User";
 import EditUserProfile from "./EditUserProfile";
 import ErrorPage from "./ErrorPage";
+import jwt_decode from "jwt-decode";
 
 export const baseURL = process.env.REACT_APP_BASE_URL;
 export const UserContext = createContext();
@@ -20,14 +21,13 @@ export default function App() {
     const [catData, setCatData] = useState([]);
     const [userData, setUserData] = useState({});
     const [seeMore, setSeeMore] = useState(true);
-    const userID = localStorage.getItem('user')
+    const jwt = localStorage.getItem('jwt')
     const location = useLocation();
     // giỏ hàng 
     const [cart, setCart] = useState(() => {
         const storageJob = JSON.parse(localStorage.getItem('Cart'))
         return storageJob ?? []
     });
-
     const cards = () => {
         const arr = [];
         if (catData.length) {
@@ -64,20 +64,10 @@ export default function App() {
             }
         }
     }
-    const getUserData = async () => {
-        try {
-            if (userID) {
-                const res = await fetch(baseURL + '/user', {
-                    method: 'POST',
-                    body: JSON.stringify({userID}),
-                    headers: {'Content-Type': 'application/json'},
-                });
-                const data = await res.json();
-                setUserData(data);
-            }
-        }
-        catch(err){
-            console.log(err);
+    const getUserData = () => {
+        if (jwt) {
+            const decoded = jwt_decode(jwt);
+            setUserData(decoded);
         }
     }    
     useEffect(() => {
@@ -87,7 +77,7 @@ export default function App() {
 
     useEffect(() => {
         getUserData();
-    }, [userID])
+    }, [jwt])
     return (
         <UserContext.Provider value={userData}>
             <AnimatePresence mode="wait">
@@ -124,7 +114,7 @@ export default function App() {
                         />
                     ))}
                     {
-                        userID &&
+                        jwt &&
                         <Route 
                             path="/cart"
                             element={<Cart cart={cart} setCart={setCart} />}
@@ -139,7 +129,7 @@ export default function App() {
                         element={<Signup />}
                     />
                     {
-                        userID &&
+                        jwt &&
                         <Route
                             path='/user'
                             element={

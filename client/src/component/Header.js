@@ -5,7 +5,7 @@ import { UserContext } from "../App";
 
 export default function Header () {
     const [userBox, setUserBox] = useState(false)
-    const userID = localStorage.getItem('user');
+    const jwt = localStorage.getItem('jwt');
     const user = useContext(UserContext);
 
     return (
@@ -19,7 +19,7 @@ export default function Header () {
                         </div>
                     </Link>
                 </div>
-                {userID ?
+                {jwt ?
                     <div className="user position-relative">
                         <motion.div 
                             whileHover={{ opacity: 0.8 }}
@@ -28,7 +28,7 @@ export default function Header () {
                             className="user__container-img" 
                             onClick={() => setUserBox(prev => !prev)}
                         >
-                            <img src={user.avatar} className="user-img rounded-circle"/>
+                            <img src={user.avatar || user.picture} className="user-img rounded-circle" referrerPolicy="no-referrer"/>
                         </motion.div>
                         {userBox && 
                             <motion.div 
@@ -41,7 +41,7 @@ export default function Header () {
                                         whileTap={{ scale: 0.95 }}
                                         transition={{duration: 0.1}}
                                         className="user-box__item--hover user-info d-flex align-items-center p-3 rounded-3">
-                                        <img src={user.avatar} className="user-img rounded-circle"/>
+                                        <img src={user.avatar || user.picture} className="user-img rounded-circle" referrerPolicy="no-referrer" />
                                         <h4 className="user-name ps-3">{user.name}</h4>
                                     </motion.div>
                                 </Link>
@@ -50,7 +50,7 @@ export default function Header () {
                                         whileTap={{ scale: 0.95 }}
                                         transition={{duration: 0.1}}
                                         className="user-box__item--hover user-info d-flex align-items-center p-3 rounded-3">
-                                        <span class="material-symbols-outlined">shopping_cart</span>
+                                        <span className="material-symbols-outlined">shopping_cart</span>
                                         <h4 className="ps-2">Cart</h4>
                                     </motion.div>
                                 </Link>
@@ -59,7 +59,7 @@ export default function Header () {
                                     transition={{duration: 0.1}}
                                     className="user-box__item--hover d-flex align-items-center p-3 rounded-3" 
                                     onClick={() => {
-                                        localStorage.removeItem('user');
+                                        localStorage.removeItem('jwt');
                                         window.location.reload(false);
                                     }}
                                 >

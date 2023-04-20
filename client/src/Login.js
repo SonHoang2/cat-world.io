@@ -1,7 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState} from "react";
 import { baseURL } from "./App";
 import { motion } from "framer-motion";
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleLogin } from '@react-oauth/google';
+import jwt_decode from "jwt-decode";
+
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -9,7 +13,7 @@ export default function Login() {
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
     const navigate = useNavigate();
-    
+
     const handleSubmit = async e => {
         e.preventDefault();
         try {
@@ -20,15 +24,37 @@ export default function Login() {
                 headers: {'Content-Type': 'application/json'},
             });
             const data = await res.json();
-            console.log(data);
             if (data.errors) {
                 setEmailError(data.errors.email);
                 setPasswordError(data.errors.password);
             }
-            if (data.user) {
-                localStorage.setItem('user', data.user);
+            if (data.jwt) {
+                localStorage.setItem('jwt', data.jwt);
                 navigate('/');
             }   
+        }
+        catch(err) {
+            console.log(err);
+        }
+    }
+
+    const googleLogin = async credentialResponse => {
+        try {
+            const user = jwt_decode(credentialResponse.credential);
+            const {name, email} = user;
+            const avatar = user.picture
+
+            const res = await fetch(baseURL + '/login/google', {
+                method: 'POST',
+                body: JSON.stringify({name, email, avatar}),
+                credentials: 'include', 
+                headers: {'Content-Type': 'application/json'},
+            });
+            const data = await res.json();
+            if (data.jwt) {
+                localStorage.setItem('jwt', data.jwt);
+                navigate('/');
+            }
         }
         catch(err) {
             console.log(err);
@@ -85,22 +111,17 @@ export default function Login() {
                 </form>
                 <h5 className='text-center mb-3 text-gray'>or continue with these social profile</h5>
                 <div className="social-contact d-flex justify-content-center mb-3">
-                    <div className='mx-2' onClick={() => {
-                        // fetch(baseURL + '/login/google', {
-                        //     method: 'GET'
-                        // })
-                    }}>
-                        <img src="./img/Google.svg" alt="Google Icon" />
-                    </div>
-                    <div className='mx-2'>
-                        <img src="./img/Facebook.svg" alt="Facebook Icon" />
-                    </div>
-                    <div className='mx-2'>
-                        <img src="./img/Gihub.svg" alt="Gihub Icon" />
-                    </div>
-                    <div className='mx-2'>
-                        <img src="./img/Twitter.svg" alt="Twitter Icon" />
-                    </div>
+                    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+                        <GoogleLogin
+                            onSuccess={credentialResponse => googleLogin(credentialResponse)}
+                            onError={() => {
+                                console.log('Login Failed');
+                            }}
+                            type='standard'
+                            logo_alignment="center"
+                            useOneTap
+                        />
+                    </GoogleOAuthProvider>
                 </div>
                 <h5 className='text-center text-gray'>Don’t have an account yet? 
                     <Link to='/signup' className='mx-2'>

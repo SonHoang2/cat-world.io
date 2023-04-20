@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
+const generator = require('generate-password');
 const pool = require('./db');
 
 const findByEmail = async (email) => {
@@ -7,23 +8,28 @@ const findByEmail = async (email) => {
     return rows;
 }
 
-module.exports.show = async (id) => {
+const showID = async (id) => {
     const [rows] = await pool.query(`SELECT * FROM users WHERE id = '${id}'`);
     return rows[0];
 }
 
 module.exports.edit = async (item) => {
-    // hash password 
-    const salt = await bcrypt.genSalt();
-    item.password = await bcrypt.hash(item.password, salt);
+    // hash password
+    if (item.password) {
+        const salt = await bcrypt.genSalt();
+        item.password = await bcrypt.hash(item.password, salt);
+        const [rows] = await pool.query(
+            `UPDATE users SET name = '${item.name}', address = '${item.address}', phone = '${item.phone}', email = '${item.email}', password = '${item.password}' WHERE email = '${item.email}'`
+        );
+        return rows
+    } else {
+        const [rows] = await pool.query(
+            `UPDATE users SET name = '${item.name}', address = '${item.address}', phone = '${item.phone}', email = '${item.email}' WHERE email = '${item.email}'`
+        );
+        return rows
 
-    const [rows] = await pool.query(
-        `UPDATE users SET name = '${item.name}', address = '${item.address}', phone = '${item.phone}', email = '${item.email}', password = '${item.password}' WHERE id = '${item.userID}'`
-    );
-    return rows
+    }
 }
-
-module.exports.findByEmail = findByEmail;
 
 module.exports.create = async (name, email, password) => {
     // hash password 
@@ -31,16 +37,13 @@ module.exports.create = async (name, email, password) => {
     const salt = await bcrypt.genSalt();
     password = await bcrypt.hash(password, salt);
     const [rows] = await pool.query(`INSERT INTO users(id,name,email,password) VALUES ('${uuid}','${name}','${email}','${password}')`)
-    return {
-        id: uuid
-    }
+    return showID(uuid)
 }
 
 module.exports.login = async (email, password) => {
     let user = await findByEmail(email);
     if (user.length !== 0) {
         user = user[0];
-        console.log(user);
         const auth = await bcrypt.compare(password, user.password);
         if (auth) {
             return user;
@@ -52,3 +55,25 @@ module.exports.login = async (email, password) => {
     }
 }
 
+module.exports.google_login = async (name, email, avatar) => {
+    try {
+        let user = await findByEmail(email);
+        if (user.length === 0) {
+            let password = generator.generate({
+                length: 10,
+                numbers: true
+            });
+            const uuid = crypto.randomUUID();
+            const salt = await bcrypt.genSalt();
+            password = await bcrypt.hash(password, salt);
+            await pool.query(`INSERT INTO users(id,name,avatar,email,password) VALUES ('${uuid}','${name}','${avatar}','${email}','${password}')`);
+        }
+        user = await findByEmail(email);
+        return user[0]
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+module.exports.showID = showID;
+module.exports.findByEmail = findByEmail;

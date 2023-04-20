@@ -2,28 +2,44 @@ import Header from "./component/Header"
 import { Link, useNavigate } from "react-router-dom"
 import { motion } from "framer-motion"
 import { baseURL } from "./App";
-import { useState, useContext } from "react"
+import { useState, useContext, useEffect } from "react"
 import { UserContext } from "./App";
 
 export default function EditUserProfile () {
+    const user = useContext(UserContext);
     const [name, setName] = useState("");
     const [address, setAddress] = useState("");
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
-    const userID = localStorage.getItem('user')
+
+    const [change, setChange] = useState({
+        name: false,
+        address: false,
+        phone: false,
+        email: false,
+        password: false,
+    })
     const navigate = useNavigate();
-    const user = useContext(UserContext);
+    const jwt = localStorage.getItem('jwt')
+
+    useEffect(() => {
+        setName(user.name);
+        setAddress(user.address);
+        setPhone(user.phone);
+        setEmail(user.email);
+        setPassword(user.password);
+    }, [Object.keys(user).length])
 
     const handleSubmit = async e => {
         e.preventDefault();
         try {
+            const id = user.id;
             const res = await fetch(baseURL + '/user/edit', {
                 method: 'POST',
-                body: JSON.stringify({userID, name, address, phone, email, password}),
+                body: JSON.stringify({id, name, address, phone, email, password}),
                 credentials: 'include', 
                 headers: {'Content-Type': 'application/json'},
             });
@@ -34,7 +50,7 @@ export default function EditUserProfile () {
                 setPasswordError(data.errors.password);
             }
             if (data === "success") {
-                localStorage.removeItem('user')
+                localStorage.removeItem('jwt')
                 navigate("/login")
             }
         }
@@ -42,7 +58,8 @@ export default function EditUserProfile () {
             console.log(err);
         }
     }
-    if (!userID) {
+    if (!jwt) {
+        localStorage.removeItem('jwt')
         navigate('/login');
     }
     return (
@@ -74,64 +91,141 @@ export default function EditUserProfile () {
                     <h5 className="text-secondary">Changes will be reflected to every services</h5>
                     <div className="pt-4 d-flex align-items-center">
                         <div className="pe-5">
-                            <img className="user-img rounded" src={user.avatar}/>
+                            <img className="user-img rounded" src={user.avatar || user.picture} referrerPolicy="no-referrer"/>
                         </div>
                         <button type="button" className="btn btn-primary">CHANGE PHOTO</button>
                     </div>
                     <div className="pt-4 d-flex flex-column">
-                        <label className="form-label me-3" htmlFor="user-name">Name</label>
-                        <input 
-                            type="text"
-                            id='user-name'
-                            className="form-control"
-                            onChange={e => setName(e.target.value)}
-                            placeholder='Enter your name...' 
-                            required
-                        />
+                        {
+                            change.name ?
+                            <div className="d-flex flex-column">
+                                <label className="form-label" htmlFor="user-name">Name</label>
+                                <div className="d-flex">
+                                    <input 
+                                        type="text"
+                                        id='user-name'
+                                        className="form-control me-4"
+                                        onChange={e => setName(e.target.value)}
+                                        placeholder='Enter your name...' 
+                                        required
+                                    /> 
+                                    <button type="button" className="btn btn-primary" onClick={() => setChange(prev => ({...prev, name: !prev.name}))}>Edit</button>
+                                </div>
+                            </div>:
+                            <div className="d-flex align-items-center">
+                                <label className="form-label m-0 me-5" htmlFor="user-name">Name</label>
+                                <div className="d-flex align-items-center justify-content-between flex-grow-1">
+                                    <h5>{user.name}</h5>
+                                    <button type="button" className="btn btn-primary" onClick={() => setChange(prev => ({...prev, name: !prev.name}))}>Edit</button>
+                                </div>
+                            </div>
+
+                        }
                     </div>
                     <div className="pt-4 d-flex flex-column">
-                        <label className="form-label" htmlFor="user-address">Address</label>
-                        <input 
-                            type="text" 
-                            id='user-address'
-                            className="form-control"
-                            onChange={e => setAddress(e.target.value)}
-                            placeholder='Enter your address...' 
-                        />
+                        {
+                            change.address ?
+                            <div className="d-flex flex-column">
+                                <label className="form-label" htmlFor="user-address">Address</label>
+                                <div className="d-flex">
+                                    <input 
+                                        type="text"
+                                        id='user-address'
+                                        className="form-control me-4"
+                                        onChange={e => setAddress(e.target.value)}
+                                        placeholder='Enter your address...' 
+                                        required
+                                    />
+                                    <button type="button" className="btn btn-primary" onClick={() => setChange(prev => ({...prev, address: !prev.address}))}>Edit</button>
+                                </div>
+                            </div>:
+                            <div className="d-flex align-items-center">
+                                <label className="form-label m-0 me-5" htmlFor="user-address">Address</label>
+                                <div className="d-flex align-items-center justify-content-between flex-grow-1">
+                                    <h5>{user.address}</h5>
+                                    <button type="button" className="btn btn-primary" onClick={() => setChange(prev => ({...prev, address: !prev.address}))}>Edit</button>
+                                </div>
+                            </div>
+                        }
                     </div>
                     <div className="pt-4 d-flex flex-column">
-                        <label className="form-label" htmlFor="user-phone">Phone</label>
-                        <input
-                            type="text" 
-                            id='user-phone'
-                            className="form-control"
-                            onChange={e => setPhone(e.target.value)}
-                            placeholder='Enter your phone...' 
-                            required
-                        />
+                        {
+                            change.phone ?
+                            <div className="d-flex flex-column">
+                                <label className="form-label" htmlFor="user-phone">Phone</label>
+                                <div className="d-flex">
+                                    <input 
+                                        type="text"
+                                        id='user-phone'
+                                        className="form-control me-4"
+                                        onChange={e => setPhone(e.target.value)}
+                                        placeholder='Enter your phone...' 
+                                        required
+                                    />
+                                    <button type="button" className="btn btn-primary" onClick={() => setChange(prev => ({...prev, phone: !prev.phone}))}>Edit</button>
+                                </div>
+                            </div> :
+                            <div className="d-flex align-items-center">
+                                <label className="form-label m-0 me-5" htmlFor="user-phone">Phone</label>
+                                <div className="d-flex align-items-center justify-content-between flex-grow-1">
+                                    <h5>{user.phone}</h5>
+                                    <button type="button" className="btn btn-primary" onClick={() => setChange(prev => ({...prev, phone: !prev.phone}))}>Edit</button>
+                                </div>
+                            </div>
+                        }
                     </div>
-                    <div className="pt-4 d-flex flex-column">
-                        <label className="form-label" htmlFor="user-email">Email</label>
-                        <input
-                            type="text" 
-                            id='user-email'
-                            className="form-control"
-                            onChange={e => setEmail(e.target.value)}
-                            placeholder='Enter your Email...' 
-                            required
-                        />
+                    <div className="pt-4 d-flex flex-column"> 
+                    {
+                            change.email ?
+                            <div className="d-flex flex-column">
+                                <label className="form-label" htmlFor="user-email">Email</label>
+                                <div className="d-flex">
+                                    <input 
+                                        type="text"
+                                        id='user-email'
+                                        className="form-control me-4"
+                                        onChange={e => setEmail(e.target.value)}
+                                        placeholder='Enter your email...' 
+                                        required
+                                    />
+                                    <button type="button" className="btn btn-primary" onClick={() => setChange(prev => ({...prev, email: !prev.email}))}>Edit</button>
+                                </div>
+                            </div> :
+                            <div className="d-flex align-items-center">
+                                <label className="form-label m-0 me-5" htmlFor="user-email">Email</label>
+                                <div className="d-flex align-items-center justify-content-between flex-grow-1">
+                                    <h5>{user.email}</h5>
+                                    <button type="button" className="btn btn-primary" onClick={() => setChange(prev => ({...prev, email: !prev.email}))}>Edit</button>
+                                </div>
+                            </div>
+                    }
                     </div>
                     <div className="invalid-feedback d-block">{emailError}</div>
-                    <div className="pt-4 d-flex flex-column">
-                        <label className="form-label" htmlFor="user-password">Password</label>
-                        <input
-                            type="text" 
-                            id='user-password'
-                            className="form-control"
-                            onChange={e => setPassword(e.target.value)}
-                            placeholder='Enter your Password...' 
-                            required
-                        />
+                    <div className="pt-4 d-flex flex-column"> 
+                    {       
+                            change.password ?
+                            <div className="d-flex flex-column">
+                                <label className="form-label" htmlFor="user-password">Password</label>
+                                <div className="d-flex">
+                                    <input 
+                                        type="text"
+                                        id='user-password'
+                                        className="form-control me-4"
+                                        onChange={e => setPassword(e.target.value)}
+                                        placeholder='Enter your password...' 
+                                        required
+                                    />
+                                    <button type="button" className="btn btn-primary" onClick={() => setChange(prev => ({...prev, password: !prev.password}))}>Edit</button>
+                                </div>
+                            </div> :
+                            <div className="d-flex align-items-center">
+                                <label className="form-label m-0 me-5" htmlFor="user-password">Password</label>
+                                <div className="d-flex align-items-center justify-content-between flex-grow-1">
+                                    <h5>**********</h5>
+                                    <button type="button" className="btn btn-primary" onClick={() => setChange(prev => ({...prev, password: !prev.password}))}>Edit</button>
+                                </div>
+                            </div>
+                    }
                     </div>
                     <div className="invalid-feedback d-block">{passwordError}</div>
                     <motion.input
