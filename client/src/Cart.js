@@ -9,13 +9,13 @@ export default function Cart(props) {
     const [isCheck, setIsCheck] = useState([]);
     const [subtotal, setSubtotal] = useState(0);
     const [total, setTotal] = useState(0);
-    const [thankForShopping, setThankForShopping] = useState(false);
+    const [popup, setPopup] = useState(false);
     const [buyErr, setBuyErr] = useState('')
     useEffect(() => {
         setTimeout(() => {
-            setThankForShopping(false)
-        }, 1000)
-    }, [thankForShopping])
+            setPopup(false)
+        }, 3000)
+    }, [popup])
 
     const cartList = () => {
         const arr = props.cart.map(item => (
@@ -56,8 +56,10 @@ export default function Cart(props) {
                     </Link>
                 </div>
                 <h4 className="col-2">{item.product.price}$</h4>
-                <div className="col-2 d-flex align-items-center">
+                <div className="col-2 d-flex align-items-center increase-decrease-btn">
                     <button type="button" className="btn btn-primary py-0 border border-dark" onClick={() => {
+                        
+
                         props.setCart(prev => {
                             let newCart
                             const found = prev.find(element => {
@@ -117,11 +119,14 @@ export default function Cart(props) {
         <div className="cart">
             <Header /> 
             <div className="pt-5"/>
-            <div className="pt-3"/>
-            {   thankForShopping &&
-                <div className="position-fixed w-100 h-100 bg-light d-flex justify-content-center align-items-center">
-                    <div className="bg-white p-5 rounded border">
-                        <h1>Thank for Shopping</h1>
+            <div className="pt-5"/>
+            {   popup &&
+                <div className="position-fixed w-100 h-100 d-flex justify-content-center align-items-center pop-up opacity-75 top-0">
+                    <div className="p-4 bg-dark rounded">
+                        <div className="d-flex justify-content-center pb-3">
+                            <img className="icon" src="/img/tick.png"/>
+                        </div>
+                        <h5 className="text-white">Thank for Shopping</h5>
                     </div>
                 </div>
             }
@@ -200,7 +205,7 @@ export default function Cart(props) {
                                     setIsCheck([]);
                                     setIsCheckAll(false);
                                     props.setCart([]);
-                                    setThankForShopping(true)
+                                    setPopup(true)
                                 } else {
                                     setBuyErr('You need to buy at least one a cat');
                                 }

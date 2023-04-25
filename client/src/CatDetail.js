@@ -6,10 +6,24 @@ import Evaluate from "./component/Evaluate"
 import { motion } from "framer-motion"
 
 export default function CatDetail(props) {
-    const [count, setCount] = useState(1)
+    const [increaseButton, setIncreaseButton] = useState(false);
+    const [decreaseButton, setDecreaseButton] = useState(true);
+    const [count, setCount] = useState(1);
+    const [popup, setPopup] = useState(false);
+
     useEffect(() => {
+        if(props.quantity == 1) {
+            setIncreaseButton(true)
+        }
         window.scrollTo(0, 0);
     }, [])
+
+    useEffect(() => {
+        setTimeout(() => {
+            setPopup(false)
+        }, 3000)
+    }, [popup])
+
     const stadiums = item => {
         const arr = []
         const remain = 5 - item
@@ -52,6 +66,16 @@ export default function CatDetail(props) {
     return (
         <div className="app">
             <Header />
+            {   popup &&
+                <div className="position-fixed w-100 h-100 d-flex justify-content-center align-items-center pop-up opacity-75 top-0">
+                    <div className="p-4 bg-dark rounded">
+                        <div className="d-flex justify-content-center pb-3">
+                            <img className="icon" src="/img/tick.png"/>
+                        </div>
+                        <h5 className="text-white">The product has been added to cart</h5>
+                    </div>
+                </div>
+            }
             <motion.div 
                 className="mx-lg-5 pt-5"
                 initial={{ opacity: 0 }}
@@ -86,17 +110,59 @@ export default function CatDetail(props) {
                         <div className="">
                             <div className="d-flex align-items-center pb-3">
                                 <h5 className="fw-bold d-inline pe-3">Quantity: </h5>
-                                <button type="button" class="btn btn-primary py-0 border border-dark" onClick={() => {
-                                    if (count > 1) {
-                                        setCount(prev => prev - 1)
-                                    }
-                                }}>-</button>
-                                <h4 className="px-2 mx-1 border border-dark rounded" >{count}</h4>
-                                <button type="button" class="btn btn-primary py-0 border border-dark" onClick={() => {
-                                    if (count < props.quantity) {
-                                        setCount(prev => prev + 1)                               
-                                    }
-                                }}>+</button>
+                                <div className="d-flex align-items-center increase-decrease-btn">
+                                    <button type="button" disabled={decreaseButton} className="btn btn-primary py-0 border border-dark" onClick={() => {
+                                        if (count > 2) {
+                                            setCount(prev => prev - 1)
+                                            setDecreaseButton(false);
+                                            setIncreaseButton(false);
+                                        } else if (count === 2) {
+                                            setCount(prev => prev - 1);
+                                            setIncreaseButton(false);
+                                            setDecreaseButton(true);
+                                        }
+                                        else {
+                                            setDecreaseButton(true);
+                                        }
+                                    }}>-</button>
+                                    <input 
+                                        type="number" 
+                                        className="px-2 mx-1 border border-dark rounded text-center" 
+                                        value={count} 
+                                        onChange={(e) => {
+                                            const number = Number(e.target.value);
+                                            const quantity = Number(props.quantity)
+                                            e.target.value = number
+                                            console.log(e.target.value);
+                                            if (number >= quantity) {
+                                                setCount(quantity)
+                                            } else {
+                                                setCount(number)
+                                        }}}
+                                        onBlur={e => {
+                                            const number = Number(e.target.value);
+                                            e.target.value = number
+                                            if (number < 1) {
+                                                setCount(1)
+                                            } 
+                                        }}
+                                    />
+                                    <button type="button" disabled={increaseButton} className="btn btn-primary py-0 border border-dark" onClick={() => {
+                                        const quantity = Number(props.quantity)
+                                        if (count < quantity - 1) {
+                                            setCount(prev => prev + 1)
+                                            setDecreaseButton(false);
+                                            setIncreaseButton(false);
+                                        } else if (count == quantity - 1) {
+                                            setCount(prev => prev + 1);
+                                            setIncreaseButton(true);
+                                            setDecreaseButton(false);
+                                        }
+                                        else {
+                                            setIncreaseButton(true);
+                                        }
+                                    }}>+</button>
+                                </div>
                             </div>
                             <motion.button 
                                 whileHover={{ opacity: 0.8 }}
@@ -121,7 +187,9 @@ export default function CatDetail(props) {
                                         const jsonCart = JSON.stringify(newCart)
                                         localStorage.setItem('Cart', jsonCart)
                                         return newCart
-                                    }) 
+                                    })
+                                    // xuất hiện thông báo
+                                    setPopup(true)
                                 }}
                             >
                                 <span className="material-symbols-outlined pe-2">add_shopping_cart</span>

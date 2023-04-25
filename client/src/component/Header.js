@@ -20,15 +20,17 @@ export default function Header () {
                     </Link>
                 </div>
                 {jwt ?
-                    <div className="user position-relative">
+                    <div className="user position-relative d-flex">
                         <motion.div 
-                            whileHover={{ opacity: 0.8 }}
                             whileTap={{ scale: 0.95 }}
-                            transition={{ type: "spring", stiffness: 300}}
-                            className="user__container-img" 
+                            transition={{duration: 0.1}}
+                            className="d-flex align-items-center p-1 rounded hover-gray" 
                             onClick={() => setUserBox(prev => !prev)}
                         >
-                            <img src={user.avatar || user.picture} className="user-img rounded-circle" referrerPolicy="no-referrer"/>
+                            <div>
+                                <img src={user.avatar || user.picture} className="user-img rounded-circle" referrerPolicy="no-referrer"/>
+                            </div>
+                            <h5 className="ps-2">{user.name}</h5>
                         </motion.div>
                         {userBox && 
                             <motion.div 
@@ -40,24 +42,16 @@ export default function Header () {
                                     <motion.div 
                                         whileTap={{ scale: 0.95 }}
                                         transition={{duration: 0.1}}
-                                        className="user-box__item--hover user-info d-flex align-items-center p-3 rounded-3">
-                                        <img src={user.avatar || user.picture} className="user-img rounded-circle" referrerPolicy="no-referrer" />
-                                        <h4 className="user-name ps-3">{user.name}</h4>
-                                    </motion.div>
-                                </Link>
-                                <Link to="/cart" className="text-decoration-none text-reset">
-                                    <motion.div 
-                                        whileTap={{ scale: 0.95 }}
-                                        transition={{duration: 0.1}}
-                                        className="user-box__item--hover user-info d-flex align-items-center p-3 rounded-3">
-                                        <span className="material-symbols-outlined">shopping_cart</span>
-                                        <h4 className="ps-2">Cart</h4>
+                                        className="hover-gray user-info d-flex align-items-center p-3 rounded-3"
+                                    >   
+                                        <span className="material-symbols-outlined">account_circle</span>
+                                        <h5 className="ps-2">Profile</h5>
                                     </motion.div>
                                 </Link>
                                 <motion.div 
                                     whileTap={{ scale: 0.95 }}
                                     transition={{duration: 0.1}}
-                                    className="user-box__item--hover d-flex align-items-center p-3 rounded-3" 
+                                    className="hover-gray d-flex align-items-center p-3 rounded-3" 
                                     onClick={() => {
                                         localStorage.removeItem('jwt');
                                         window.location.reload(false);
@@ -68,6 +62,15 @@ export default function Header () {
                                 </motion.div>
                             </motion.div>
                         }
+                        <div className="border m-3"></div>
+                        <Link to="/cart" className="text-decoration-none text-reset">
+                            <motion.div 
+                                whileTap={{ scale: 0.95 }}
+                                transition={{duration: 0.1}}
+                                className="hover-gray user-info d-flex align-items-center p-3 rounded-3">
+                                <span className="material-symbols-outlined">shopping_cart</span>
+                            </motion.div>
+                        </Link>
                     </div> :
                     <Link to="/login" className="text-decoration-none">
                         <motion.button 
