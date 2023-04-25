@@ -52,6 +52,12 @@ export default function App() {
     }
     const getCatData = async () => {
         try {
+            if (process.env.REACT_APP_RENDER_DEPLOY_HOOK) {
+                console.log('hello');
+                await fetch(process.env.REACT_APP_RENDER_DEPLOY_HOOK, {
+                    method: "GET",
+                })
+            }
             const res = await fetch(baseURL + '/show', {
                 method: "GET",
             })
