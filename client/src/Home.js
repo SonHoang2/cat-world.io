@@ -94,7 +94,7 @@ export default function Home(props) {
                     </div>
                     <div className="cat-breeds p-4 px-md-5">
                         <p className="cat-breeds-top">Most Searched Breeds</p>
-                        <div className="cat-breeds-heading d-flex flex-row justify-content-between align-items-end">
+                        <div className="cat-breeds-heading d-flex flex-row justify-content-between align-items-end pb-4">
                             <h1 className="cat-breeds-title fw-bold mt-3 lh-sm">66+ Breeds For you <br/> to discover</h1>
                             {
                                 window.innerWidth > 992 &&

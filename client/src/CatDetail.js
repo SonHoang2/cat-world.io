@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 import { useEffect, useState } from "react"
 import Evaluate from "./component/Evaluate"
 import { motion } from "framer-motion"
+import Slider from "react-slick"
 
 export default function CatDetail(props) {
     const [increaseButton, setIncreaseButton] = useState(false);
@@ -43,25 +44,76 @@ export default function CatDetail(props) {
         return arr
     }
     const cards = () => {
-        const arr = []
-        for (let i = 0; i < 9; i++) {
-            if (props.catData[i].id !== props.id) {
-                arr.push(
-                    <div className="col-md-6 col-lg-3 p-3 hover-img">
-                        <Link to={'/' + props.catData[i].name}>
-                            <motion.div 
-                                whileHover={{y: -20}}
-                                whileTap={{ scale: 1.1 }}
-                                className="cat-img"
-                                style={{backgroundImage: `url(img/${props.catData[i].image_url}.jpg)`}}
-                            />
-                        </Link>
+        const array = props.catData.map(item => {
+            if (item.id !== props.id) {
+                return (
+                    <div className="px-4">
+                        <div className="pb-2">
+                            <Link to={'/' + item.name}> 
+                                <motion.div
+                                    className="cat-img"
+                                    initial={{ opacity: 0 }}
+                                    animate={{opacity: 1}}
+                                    transition={{duration: 0.2}}
+                                    whileHover={{filter: "grayscale(100%)"}}
+                                    whileTap={{ scale: 0.95 }}
+                                    style={{backgroundImage: `url(img/${item.image_url}.jpg)`}}
+                                />
+                            </Link>
+                        </div>
+                        <p className="text-center text-dark fw-bold">{item.name}</p>
                     </div>
-                )
+                )  
             }
-        }
-        return arr;
+        })
+        return array;
     }
+
+    const settings = {
+        infinite: true,
+        speed: 500,
+        slidesToShow: 6,
+        slidesToScroll: 1,
+        initialSlide: 0,
+        autoplay: true,
+        autoplaySpeed: 3000,
+        pauseOnHover: true,
+        responsive: [
+            {
+                breakpoint: 1400,
+                settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 4,
+                }
+            },
+            {
+                breakpoint: 992,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
+                    arrows: false,
+                    
+                }
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                    arrows: false,
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows: false,
+                }
+            }
+        ]
+    };
+  
 
     return (
         <div className="app">
@@ -199,10 +251,10 @@ export default function CatDetail(props) {
                     </div>
                 </div>
                 <div className="container-fluid my-5">
-                    <h2 className="fw-semibold">Other photos</h2>
-                    <div className="row">
+                    <h4 className="fw-semibold pb-3">Other photos</h4>
+                    <Slider {...settings}> 
                         {cards()}
-                    </div>
+                    </Slider> 
                 </div>
                 <Footer />
             </motion.div>
