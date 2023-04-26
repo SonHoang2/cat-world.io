@@ -10,12 +10,35 @@ export default function Cart(props) {
     const [subtotal, setSubtotal] = useState(0);
     const [total, setTotal] = useState(0);
     const [popup, setPopup] = useState(false);
-    const [buyErr, setBuyErr] = useState('')
+    const [buyErr, setBuyErr] = useState('');
     useEffect(() => {
         setTimeout(() => {
             setPopup(false)
         }, 2000)
     }, [popup])
+
+    const recalculation = (item) => {
+        const recalculation = isCheck.some(element => element.id === item.product.id);
+        if (recalculation) {
+            setIsCheck(prev => {
+                let newCart;
+                const found = prev.find(element => {
+                    return element.id === item.product.id
+                });
+                found.quantity = item.quantity
+                newCart = [...prev]
+                
+                const sum = newCart.reduce((accumulator, currentValue) => {
+                    return accumulator + currentValue.price * currentValue.quantity
+                }, 0)
+                setSubtotal(sum);
+                setTotal(sum)
+
+                return newCart
+            })
+        }
+    }
+
     const cartList = () => {
         const arr = props.cart.map(item => (
             <div key={item.product.id} className="d-flex pb-4 align-items-center">
@@ -24,12 +47,14 @@ export default function Cart(props) {
                         <input 
                             className="form-check-input" 
                             type="checkbox"
+                            // trả về true nếu phần tử được click
                             checked={isCheck.some(element => element.id === item.product.id)}
                             onChange={(e) => {
                                 const { checked } = e.target;
                                 const obj = {id: item.product.id, price: item.product.price, quantity: item.quantity}
                                 setIsCheck([...isCheck, obj]);
                                 if (!checked) {
+                                    // trả về toàn bộ phần tử khác với phần tử được click
                                     setIsCheck(isCheck.filter(element => element.id !== obj.id));
                                 }
                                 if (checked) {
@@ -72,13 +97,13 @@ export default function Cart(props) {
                             else {
                                 item.decreaseButton = true;
                             }
-
                             newCart = [...prev]
                             // save to local storage
                             const jsonCart = JSON.stringify(newCart)
                             localStorage.setItem('Cart', jsonCart)
                             return newCart
-                        }) 
+                        })
+                        recalculation(item)
                     }}>-</button>
                     <input 
                         type="number" 
@@ -101,7 +126,7 @@ export default function Cart(props) {
                                 }
                                 newCart = [...prev]
                                 return newCart
-                            })                           
+                            })                          
                         }}
                         onBlur={e => {
                             const number = Number(e.target.value);
@@ -116,12 +141,13 @@ export default function Cart(props) {
                                     item.quantity = 1
                                 }
                                 newCart = [...prev]
-                                console.log(newCart);
+
                                 // save to local storage
                                 const jsonCart = JSON.stringify(newCart)
                                 localStorage.setItem('Cart', jsonCart)
                                 return newCart
-                            })      
+                            })
+                            recalculation(item)
                         }}
                     />
                     <button type="button" disabled={item.increaseButton} className="btn btn-primary py-0 border border-dark" onClick={() => {
@@ -132,7 +158,7 @@ export default function Cart(props) {
                                 item.quantity += 1;
                                 item.decreaseButton = false;
                                 item.increaseButton = false;
-                            } else if (item.quantity  == item.goodInStock - 1) {
+                            } else if (item.quantity  === item.goodInStock - 1) {
                                 item.quantity += 1;
                                 item.decreaseButton = false;
                                 item.increaseButton = true;
@@ -145,7 +171,8 @@ export default function Cart(props) {
                             const jsonCart = JSON.stringify(newCart);
                             localStorage.setItem('Cart', jsonCart);
                             return newCart;
-                        }) 
+                        })
+                        recalculation(item)
                     }}>+</button>
                 </div>
                 <h4 className="col-2">{item.quantity * item.product.price}$</h4>
