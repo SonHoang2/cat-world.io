@@ -10,15 +10,16 @@ export default function Home(props) {
         windowInnerWidth: window.innerWidth,
     })
 
-    const onSearch = searchTerm => {
-        setSearchValue(searchTerm)
-    }
-
     useEffect(() => {
         window.addEventListener("resize", () => setDisplay({
             windowInnerWidth: window.innerWidth,
         }));
     }, []);
+    
+    const onSearch = searchTerm => {
+        setSearchValue(searchTerm)
+    }
+    
     return (
         <div className="app">
             <Header />

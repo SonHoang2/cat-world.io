@@ -22,7 +22,7 @@ export default function CatDetail(props) {
     useEffect(() => {
         setTimeout(() => {
             setPopup(false)
-        }, 3000)
+        }, 2000)
     }, [popup])
 
     const stadiums = item => {
@@ -188,14 +188,19 @@ export default function CatDetail(props) {
                                             console.log(e.target.value);
                                             if (number >= quantity) {
                                                 setCount(quantity)
+                                                setDecreaseButton(false);
+                                                setIncreaseButton(true);
                                             } else {
                                                 setCount(number)
+                                                setDecreaseButton(false);
+                                                setIncreaseButton(false);
                                         }}}
                                         onBlur={e => {
                                             const number = Number(e.target.value);
                                             e.target.value = number
                                             if (number < 1) {
                                                 setCount(1)
+                                                setDecreaseButton(true);
                                             } 
                                         }}
                                     />
@@ -222,7 +227,7 @@ export default function CatDetail(props) {
                                 type="button" 
                                 className="btn btn-primary d-flex align-items-center" 
                                 onClick={() => {
-                                    const item = {product: {id: props.id, name: props.name , price: props.price, image: props.image_url}, quantity: count, goodInStock: props.quantity}
+                                    const item = {product: {id: props.id, name: props.name , price: props.price, image: props.image_url}, quantity: count, goodInStock: props.quantity, decreaseButton: decreaseButton, increaseButton: increaseButton}
                                     props.setCart(prev => {
                                         let newCart
                                         const found = prev.find(element => {
