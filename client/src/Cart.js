@@ -345,25 +345,36 @@ export default function Cart(props) {
                         }}>+</button>
                     </div>
                 </div>
-                <motion.button 
-                    type="button" 
-                    className="btn btn-light p-1 col-2"
-                    whileHover={{ opacity: 0.8 }}
-                    whileTap={{ scale: 0.95 }}
-                    transition={{ type: "spring", stiffness: 300}}
-                    onClick={() => {
-                        const newCart = props.cart.filter(element => element.product.id !== item.product.id)
-                        props.setCart(newCart)
-                        const jsonCart = JSON.stringify(newCart)
-                        localStorage.setItem('Cart', jsonCart)
-                }}
-                >
-                    <span className="material-symbols-outlined">delete</span>
-                </motion.button>
+                <div className="d-flex col-2 justify-content-end align-items-center">
+                    <motion.button 
+                        type="button" 
+                        className="btn btn-light p-1 h-50"
+                        whileHover={{ opacity: 0.8 }}
+                        whileTap={{ scale: 0.95 }}
+                        transition={{ type: "spring", stiffness: 300}}
+                        onClick={() => {
+                            const newCart = props.cart.filter(element => element.product.id !== item.product.id)
+                            props.setCart(newCart)
+                            const jsonCart = JSON.stringify(newCart)
+                            localStorage.setItem('Cart', jsonCart)
+                    }}
+                    >
+                        <span className="material-symbols-outlined">delete</span>
+                    </motion.button>
+                </div>
             </div>
         ))
         return arr
     }
+
+    const deleteAll = () => {
+        setSubtotal(0);
+        setTotal(0);
+        setIsCheck([]);
+        setIsCheckAll(false);
+        props.setCart([]);
+    }
+
     return (
         <div className="cart">
             <Header /> 
@@ -424,10 +435,28 @@ export default function Cart(props) {
                                 <h4 className="col-3 pe-xl-5">Price</h4>
                                 <h4 className="col-5 pe-xl-5">Quantity</h4>
                                 <h4 className="col-3 pe-xl-5">Total</h4>
-                                <span className="material-symbols-outlined col-1">delete</span>
+                                <motion.button 
+                                    type="button"
+                                    className="btn btn-light p-1"
+                                    whileHover={{ opacity: 0.8 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    transition={{ type: "spring", stiffness: 300}}
+                                    onClick={() => deleteAll()}
+                                >
+                                    <span className="material-symbols-outlined">delete</span>
+                                </motion.button>
                             </div> : 
                             <div className="d-flex col-7 justify-content-end">
-                                <span className="material-symbols-outlined">delete</span>
+                                <motion.button 
+                                    type="button"
+                                    className="btn btn-light p-1"
+                                    whileHover={{ opacity: 0.8 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    transition={{ type: "spring", stiffness: 300}}
+                                    onClick={() => deleteAll()}
+                                >
+                                    <span className="material-symbols-outlined">delete</span>
+                                </motion.button>
                             </div> 
                             }
                         </div>
