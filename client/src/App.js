@@ -60,7 +60,7 @@ export default function App() {
         }
         catch(err){
             if (err.message === 'Failed to fetch') {
-                setTimeout(getCatData, 5000)
+                setTimeout(getCatData, 2000)
             }
         }
     }
