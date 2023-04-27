@@ -39,7 +39,7 @@ export default function Home(props) {
                             <p className="cat-wiki__text search-bar-mw mt-1 lh-sm">Get to know more about your cat breed</p>
                             <div className="search-bar search-bar-mw my-3">
                                 {
-                                    window.innerWidth < 576 ?
+                                    display.windowInnerWidth < 576 ?
                                         <Link to='/mobile-search'>
                                             <input 
                                                 type="text" 
@@ -98,7 +98,7 @@ export default function Home(props) {
                         <div className="cat-breeds-heading d-flex flex-row justify-content-between align-items-end pb-4">
                             <h1 className="cat-breeds-title fw-bold mt-3 lh-sm">66+ Breeds For you <br/> to discover</h1>
                             {
-                                window.innerWidth > 992 &&
+                                display.windowInnerWidth > 992 &&
                                 <div>
                                     <button className="border-0 bg-transparent d-flex align-items-center hover-effect" onClick={() => props.setSeeMore(prev => !prev)}>
                                         <p className="color-btn p-1 fw-bold">SEE MORE</p>

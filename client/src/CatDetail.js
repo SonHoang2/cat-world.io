@@ -22,7 +22,7 @@ export default function CatDetail(props) {
     useEffect(() => {
         setTimeout(() => {
             setPopup(false)
-        }, 2000)
+        }, 1000)
     }, [popup])
 
     const stadiums = item => {
