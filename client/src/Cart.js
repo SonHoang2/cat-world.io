@@ -373,6 +373,7 @@ export default function Cart(props) {
         setIsCheck([]);
         setIsCheckAll(false);
         props.setCart([]);
+        localStorage.removeItem('Cart')
     }
 
     return (
@@ -496,6 +497,7 @@ export default function Cart(props) {
                                     setIsCheckAll(false);
                                     props.setCart([]);
                                     setPopup(true)
+                                    localStorage.removeItem('Cart')
                                 } else {
                                     setBuyErr('You need to buy at least one a cat');
                                 }
