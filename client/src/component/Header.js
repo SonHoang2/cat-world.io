@@ -10,7 +10,6 @@ export default function Header () {
     const [display, setDisplay] = useState({
         windowInnerWidth: window.innerWidth,
     })
-    console.log(display.windowInnerWidth);
     useEffect(() => {
         window.addEventListener("resize", () => setDisplay({
             windowInnerWidth: window.innerWidth,
