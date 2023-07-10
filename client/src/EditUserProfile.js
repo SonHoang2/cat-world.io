@@ -14,7 +14,6 @@ export default function EditUserProfile () {
     const [password, setPassword] = useState("");
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
-
     const [change, setChange] = useState({
         name: false,
         address: false,
@@ -63,13 +62,13 @@ export default function EditUserProfile () {
         navigate('/login');
     }
     return (
-        <div className="edit-user-profile">
+        <div>
             <Header/>
             <div className="pt-5"/>
             <div className="pt-5"/>
             <div className="pt-5"/>
             <motion.div 
-                className="container-md"
+                className="container-md edit-user-profile"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{opacity: 0}
@@ -91,9 +90,11 @@ export default function EditUserProfile () {
                     <h5 className="text-secondary">Changes will be reflected to every services</h5>
                     <div className="pt-4 d-flex align-items-center">
                         <div className="pe-5">
-                            <img className="user-img rounded" src={user.avatar || user.picture} referrerPolicy="no-referrer"/>
+                            <img className="user-img rounded" src={user.avatar} referrerPolicy="no-referrer"/>
                         </div>
-                        <button type="button" className="btn btn-primary">CHANGE PHOTO</button>
+                        <Link to = "/upload/img">
+                            <button type="button" className="btn btn-primary">CHANGE PHOTO</button>
+                        </Link>
                     </div>
                     <div className="pt-4 d-flex flex-column">
                         {

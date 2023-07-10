@@ -21,3 +21,19 @@ module.exports.edit = async (req, res) => {
         res.status(400).json({errors});
     }
 }
+
+module.exports.uploadImg = (req, res) => {
+    let {path} = req.file;
+    path = path.replace("\\", '/')
+    res.json({path: path})
+}
+
+module.exports.updateAvatar = async (req, res) => {
+    try {
+        const {id, path} = req.body;
+        const user = await User.updateAvatar(id, path);
+        res.json({})
+    } catch (err) {
+        console.log(err);
+    }
+}

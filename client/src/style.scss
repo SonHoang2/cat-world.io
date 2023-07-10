@@ -62,14 +62,6 @@ input[type=number] {
     border-radius: 20px;
 }
 
-.text-gray {
-    color: $color-gray;
-}
-
-.bg-gray {
-    background-color: #9797971A;
-}
-
 .color-btn {
     color: $color-btn;
 }
@@ -427,6 +419,18 @@ input[type=number] {
     }
 }
 
+.upload-img {
+    .img-drop {
+        background-image: repeating-linear-gradient(-37deg, #97bef4, #97bef4 16px, transparent 16px, transparent 32px, #97bef4 32px), repeating-linear-gradient(53deg, #97bef4, #97bef4 16px, transparent 16px, transparent 32px, #97bef4 32px), repeating-linear-gradient(143deg, #97bef4, #97bef4 16px, transparent 16px, transparent 32px, #97bef4 32px), repeating-linear-gradient(233deg, #97bef4, #97bef4 16px, transparent 16px, transparent 32px, #97bef4 32px);
+        background-size: 1px calc(100% + 40.07px), calc(100% + 40.07px) 1px, 1px calc(100% + 40.07px) , calc(100% + 40.07px) 1px;
+        background-position: 0 0, 0 0, 100% 0, 0 100%;
+        background-repeat: no-repeat;
+    }
+
+    .icon {
+        font-size: 50px;
+    }
+}
 
 @media screen and (min-width: $md) {
     .cat-wiki-title {

@@ -77,9 +77,9 @@ module.exports.login_post = async (req, res) => {
 }
 
 module.exports.google_login = async (req, res) => {
-    const {name, email, avatar} = req.body;
+    const {name, email} = req.body;
     try {
-        const user = await User.google_login(name, email, avatar);
+        const user = await User.google_login(name, email);
         const token = createToken(user.id, user.email, user.name, user.address, user.phone, user.avatar);
         console.log(token);
         res.status(201).json({jwt: token})

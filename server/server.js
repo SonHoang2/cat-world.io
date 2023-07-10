@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const bodyParser = require('body-parser');
 const catRoutes = require('./routes/catRoutes');
 const authRoutes = require('./routes/authRoutes')
@@ -11,7 +12,6 @@ require('dotenv').config()
 const baseURL = process.env.baseURL;
 
 //middleware
-app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(cors(({credentials: true, origin: baseURL})));
 
@@ -23,6 +23,7 @@ app.listen(PORT, function(err){
 
 app.get('/', (req,res) => res.json('đây là trang chủ'));
 
+app.use('/img', express.static(path.join(__dirname, 'img')));
 app.use(catRoutes);
 app.use(authRoutes)
 app.use(userRoutes);

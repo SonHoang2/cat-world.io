@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../App";
+import { baseURL } from "../App";
 
 export default function Header () {
     const [userBox, setUserBox] = useState(false)
@@ -28,7 +29,7 @@ export default function Header () {
                             onClick={() => setUserBox(prev => !prev)}
                         >
                             <div>
-                                <img src={user.avatar || user.picture} className="user-img rounded-circle" referrerPolicy="no-referrer"/>
+                                <img src={user.avatar} className="user-img rounded-circle" referrerPolicy="no-referrer"/>
                             </div>
                             <h5 className="ps-2">{user.name}</h5>
                         </motion.div>
@@ -83,7 +84,7 @@ export default function Header () {
                             onClick={() => setUserBox(prev => !prev)}
                         >
                             <div>
-                                <img src={user.avatar || user.picture} className="user-img rounded-circle" referrerPolicy="no-referrer"/>
+                                <img src={user.avatar} className="user-img rounded-circle" referrerPolicy="no-referrer"/>
                             </div>
                             <h5 className="ps-2">{user.name}</h5>
                         </motion.div>

@@ -11,6 +11,7 @@ import { AnimatePresence } from "framer-motion";
 import Cart from "./Cart"
 import User from "./User";
 import EditUserProfile from "./EditUserProfile";
+import UploadImg from "./UploadImg";
 import ErrorPage from "./ErrorPage";
 import jwt_decode from "jwt-decode";
 
@@ -67,7 +68,12 @@ export default function App() {
     const getUserData = () => {
         if (jwt) {
             const decoded = jwt_decode(jwt);
-            setUserData(decoded);
+            const newData = {
+                ...decoded,
+                avatar: baseURL + '/' + decoded.avatar
+            }
+            console.log(newData);
+            setUserData(newData);
         }
     }    
     useEffect(() => {
@@ -78,6 +84,7 @@ export default function App() {
     useEffect(() => {
         getUserData();
     }, [jwt])
+
     return (
         <UserContext.Provider value={userData}>
             <AnimatePresence mode="wait">
@@ -141,6 +148,10 @@ export default function App() {
                     <Route 
                         path="/user/edit"
                         element={<EditUserProfile/>}
+                    />
+                    <Route 
+                        path="/upload/img"
+                        element={<UploadImg />}
                     />
                     <Route
                         path='*'

@@ -55,7 +55,7 @@ module.exports.login = async (email, password) => {
     }
 }
 
-module.exports.google_login = async (name, email, avatar) => {
+module.exports.google_login = async (name, email) => {
     try {
         let user = await findByEmail(email);
         if (user.length === 0) {
@@ -66,10 +66,20 @@ module.exports.google_login = async (name, email, avatar) => {
             const uuid = crypto.randomUUID();
             const salt = await bcrypt.genSalt();
             password = await bcrypt.hash(password, salt);
-            await pool.query(`INSERT INTO users(id,name,avatar,email,password) VALUES ('${uuid}','${name}','${avatar}','${email}','${password}')`);
+            await pool.query(`INSERT INTO users(id,name,email,password) VALUES ('${uuid}','${name}','${email}','${password}')`);
         }
         user = await findByEmail(email);
+        console.log(user[0]);
         return user[0]
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+module.exports.updateAvatar = async (id, path) => {
+    try {
+        const [rows] = await pool.query(`UPDATE users SET avatar = '${path}' WHERE id = '${id}'`);
+        return rows;
     } catch (err) {
         console.log(err);
     }
