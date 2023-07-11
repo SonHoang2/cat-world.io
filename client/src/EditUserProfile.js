@@ -6,7 +6,7 @@ import { useState, useContext, useEffect } from "react"
 import { UserContext } from "./App";
 
 export default function EditUserProfile () {
-    const user = useContext(UserContext);
+    const {userData} = useContext(UserContext);
     const [name, setName] = useState("");
     const [address, setAddress] = useState("");
     const [phone, setPhone] = useState("");
@@ -25,17 +25,17 @@ export default function EditUserProfile () {
     const jwt = localStorage.getItem('jwt')
 
     useEffect(() => {
-        setName(user.name);
-        setAddress(user.address);
-        setPhone(user.phone);
-        setEmail(user.email);
-        setPassword(user.password);
-    }, [Object.keys(user).length])
+        setName(userData.name);
+        setAddress(userData.address);
+        setPhone(userData.phone);
+        setEmail(userData.email);
+        setPassword(userData.password);
+    }, [Object.keys(userData).length])
 
     const handleSubmit = async e => {
         e.preventDefault();
         try {
-            const id = user.id;
+            const id = userData.id;
             const res = await fetch(baseURL + '/user/edit', {
                 method: 'POST',
                 body: JSON.stringify({id, name, address, phone, email, password}),
@@ -90,7 +90,7 @@ export default function EditUserProfile () {
                     <h5 className="text-secondary">Changes will be reflected to every services</h5>
                     <div className="pt-4 d-flex align-items-center">
                         <div className="pe-5">
-                            <img className="user-img rounded" src={user.avatar} referrerPolicy="no-referrer"/>
+                            <img className="user-img rounded" src={userData.avatar} referrerPolicy="no-referrer"/>
                         </div>
                         <Link to = "/upload/img">
                             <button type="button" className="btn btn-primary">CHANGE PHOTO</button>
@@ -116,7 +116,7 @@ export default function EditUserProfile () {
                             <div className="d-flex align-items-center">
                                 <label className="form-label m-0 me-5" htmlFor="user-name">Name</label>
                                 <div className="d-flex align-items-center justify-content-between flex-grow-1">
-                                    <h5>{user.name}</h5>
+                                    <h5>{userData.name}</h5>
                                     <button type="button" className="btn btn-primary" onClick={() => setChange(prev => ({...prev, name: !prev.name}))}>Edit</button>
                                 </div>
                             </div>
@@ -143,7 +143,7 @@ export default function EditUserProfile () {
                             <div className="d-flex align-items-center">
                                 <label className="form-label m-0 me-5" htmlFor="user-address">Address</label>
                                 <div className="d-flex align-items-center justify-content-between flex-grow-1">
-                                    <h5>{user.address}</h5>
+                                    <h5>{userData.address}</h5>
                                     <button type="button" className="btn btn-primary" onClick={() => setChange(prev => ({...prev, address: !prev.address}))}>Edit</button>
                                 </div>
                             </div>
@@ -169,7 +169,7 @@ export default function EditUserProfile () {
                             <div className="d-flex align-items-center">
                                 <label className="form-label m-0 me-5" htmlFor="user-phone">Phone</label>
                                 <div className="d-flex align-items-center justify-content-between flex-grow-1">
-                                    <h5>{user.phone}</h5>
+                                    <h5>{userData.phone}</h5>
                                     <button type="button" className="btn btn-primary" onClick={() => setChange(prev => ({...prev, phone: !prev.phone}))}>Edit</button>
                                 </div>
                             </div>
@@ -195,7 +195,7 @@ export default function EditUserProfile () {
                             <div className="d-flex align-items-center">
                                 <label className="form-label m-0 me-5" htmlFor="user-email">Email</label>
                                 <div className="d-flex align-items-center justify-content-between flex-grow-1">
-                                    <h5>{user.email}</h5>
+                                    <h5>{userData.email}</h5>
                                     <button type="button" className="btn btn-primary" onClick={() => setChange(prev => ({...prev, email: !prev.email}))}>Edit</button>
                                 </div>
                             </div>

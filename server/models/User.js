@@ -79,7 +79,7 @@ module.exports.google_login = async (name, email) => {
 module.exports.updateAvatar = async (id, path) => {
     try {
         const [rows] = await pool.query(`UPDATE users SET avatar = '${path}' WHERE id = '${id}'`);
-        return rows;
+        return showID(id);
     } catch (err) {
         console.log(err);
     }

@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { UserContext, baseURL } from "./App";
 
 export default function User() {
-    const user = useContext(UserContext);
+    const {userData} = useContext(UserContext);
     return (
         <div>
             <Header />
@@ -42,24 +42,24 @@ export default function User() {
                     <div className="d-flex border-bottom border-end border-start border-dark border-opacity-25 py-4 px-5">
                         <h5 className="d-flex flex-wrap align-content-center text-secondary text-opacity-75 col-6 col-sm-4">PHOTO</h5>
                         <div>
-                            <img className="img-fluid user-img rounded" src={user.avatar} referrerPolicy="no-referrer"/>
+                            <img className="img-fluid user-img rounded" src={userData.avatar} referrerPolicy="no-referrer"/>
                         </div>
                     </div>
                     <div className="d-flex border-bottom border-end border-start border-dark border-opacity-25 py-4 px-5">
                         <h5 className="d-flex align-content-center text-secondary text-opacity-75 col-6 col-sm-4">NAME</h5>
-                        <h5>{user.name}</h5>
+                        <h5>{userData.name}</h5>
                     </div>
                     <div className="d-flex border-bottom border-end border-start border-dark border-opacity-25 py-4 px-5">
                         <h5 className="d-flex align-content-center text-secondary text-opacity-75 col-6 col-sm-4">ADDRESS</h5>
-                        <h5>{user.address}</h5>
+                        <h5>{userData.address}</h5>
                     </div>
                     <div className="d-flex border-bottom border-end border-start border-dark border-opacity-25 py-4 px-5">
                         <h5 className="d-flex align-content-center text-secondary text-opacity-75 col-6 col-sm-4">PHONE</h5>
-                        <h5>{user.phone}</h5>
+                        <h5>{userData.phone}</h5>
                     </div>
                     <div className="d-flex border-bottom border-end border-start border-dark border-opacity-25 py-4 px-5">
                         <h5 className="d-flex align-content-center text-secondary text-opacity-75 col-6 col-sm-4">EMAIL</h5>
-                        <h5>{user.email}</h5>
+                        <h5>{userData.email}</h5>
                     </div>
                     <div className="d-flex border-bottom border-end border-start border-dark border-opacity-25 py-4 px-5 rounded-bottom">
                         <h5 className="d-flex align-content-center text-secondary text-opacity-75 col-6 col-sm-4">PASSWORD</h5>

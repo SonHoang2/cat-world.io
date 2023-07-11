@@ -25,14 +25,13 @@ const handleErrors = err =>{
     return errors;
 }
 
-module.exports = {handleErrors}
-
-const maxAge = 86400 * 3;
 function createToken(id, email, name, address, phone, avatar) {
     return jwt.sign({id, email, name, address, phone, avatar}, process.env.JWT_SECRET,{
-        expiresIn: maxAge
+        expiresIn: 86400 * 3
     })
 }
+
+module.exports = {createToken, handleErrors}
 
 module.exports.signup_post = async (req, res) => {
     const {name, email, password} = req.body;

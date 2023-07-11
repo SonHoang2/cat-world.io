@@ -7,7 +7,7 @@ import { baseURL } from "../App";
 export default function Header () {
     const [userBox, setUserBox] = useState(false)
     const jwt = localStorage.getItem('jwt');
-    const user = useContext(UserContext);
+    const {userData} = useContext(UserContext);
     const [display, setDisplay] = useState({
         windowInnerWidth: window.innerWidth,
     })
@@ -29,9 +29,9 @@ export default function Header () {
                             onClick={() => setUserBox(prev => !prev)}
                         >
                             <div>
-                                <img src={user.avatar} className="user-img rounded-circle" referrerPolicy="no-referrer"/>
+                                <img src={userData.avatar} className="user-img rounded-circle" referrerPolicy="no-referrer"/>
                             </div>
-                            <h5 className="ps-2">{user.name}</h5>
+                            <h5 className="ps-2">{userData.name}</h5>
                         </motion.div>
                         {userBox && 
                             <motion.div 
@@ -84,9 +84,9 @@ export default function Header () {
                             onClick={() => setUserBox(prev => !prev)}
                         >
                             <div>
-                                <img src={user.avatar} className="user-img rounded-circle" referrerPolicy="no-referrer"/>
+                                <img src={userData.avatar} className="user-img rounded-circle" referrerPolicy="no-referrer"/>
                             </div>
-                            <h5 className="ps-2">{user.name}</h5>
+                            <h5 className="ps-2">{userData.name}</h5>
                         </motion.div>
                         {userBox && 
                             <motion.div 

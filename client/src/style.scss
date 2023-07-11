@@ -430,6 +430,12 @@ input[type=number] {
     .icon {
         font-size: 50px;
     }
+
+    .image-preview {
+        width: 300px;
+        height: 300px;
+        object-fit: cover;
+    }
 }
 
 @media screen and (min-width: $md) {

@@ -25,14 +25,15 @@ module.exports.edit = async (req, res) => {
 module.exports.uploadImg = (req, res) => {
     let {path} = req.file;
     path = path.replace("\\", '/')
-    res.json({path: path})
+    res.status(200).json({path: path})
 }
 
 module.exports.updateAvatar = async (req, res) => {
     try {
         const {id, path} = req.body;
         const user = await User.updateAvatar(id, path);
-        res.json({})
+        const token = authController.createToken(user.id, user.email, user.name, user.address, user.phone, user.avatar);
+        res.status(200).json({jwt: token})
     } catch (err) {
         console.log(err);
     }

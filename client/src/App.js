@@ -24,6 +24,7 @@ export default function App() {
     const [seeMore, setSeeMore] = useState(true);
     const jwt = localStorage.getItem('jwt')
     const location = useLocation();
+    const value = {userData}
     // giỏ hàng 
     const [cart, setCart] = useState(() => {
         const storageJob = JSON.parse(localStorage.getItem('Cart'))
@@ -72,7 +73,6 @@ export default function App() {
                 ...decoded,
                 avatar: baseURL + '/' + decoded.avatar
             }
-            console.log(newData);
             setUserData(newData);
         }
     }    
@@ -86,7 +86,7 @@ export default function App() {
     }, [jwt])
 
     return (
-        <UserContext.Provider value={userData}>
+        <UserContext.Provider value={value}>
             <AnimatePresence mode="wait">
                 <Routes location={location} key={location.pathname}>
                     <Route 
