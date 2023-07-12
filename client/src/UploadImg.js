@@ -43,21 +43,42 @@ export default function UploadImg () {
     function handleDrop(e) {
         e.preventDefault(e);
         const { files } = e.dataTransfer
-
+        console.log(files);
         if (files.length === 1) {
-            const img = {
-                preview: URL.createObjectURL(files[0]),
-                data: files[0],
+            if (files[0].type === "image/jpeg" || files[0].type === "image/png") {
+                if (files[0].size <= 2000000) {
+                    const img = {
+                        preview: URL.createObjectURL(files[0]),
+                        data: files[0],
+                    }
+                    setImage(img)
+                } else {
+                    alert("File should be smaller than 2MB");
+                }
+            } else {
+                alert("File should be Jpeg, Png");
             }
-            setImage(img)
         } else {
-            alert("please drop only one image");
+            alert("Please drop only one image");
             console.log(image);
         }
     }
 
     function handleDragOver(e) {
         e.preventDefault(e);
+    }
+
+    function handleChange(e) {
+        const {files} = e.target
+        if (files[0].size <= 2000000) {
+            const img = {
+                preview: URL.createObjectURL(files[0]),
+                data: files[0],
+            }
+            setImage(img)
+        } else {
+            alert("File should be smaller than 2MB");
+        }
     }
 
     return (
@@ -102,13 +123,8 @@ export default function UploadImg () {
                                         id="input-img-upload"
                                         name='avatar'
                                         className="d-none"
-                                        onChange={e => {
-                                            const img = {
-                                                preview: URL.createObjectURL(e.target.files[0]),
-                                                data: e.target.files[0],
-                                            }
-                                            setImage(img)
-                                        }}
+                                        accept="image/*"
+                                        onChange={handleChange}
                                     />
                                     <label className='btn btn-primary' htmlFor="input-img-upload">Choose a file</label>
                                 </div>

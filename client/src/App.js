@@ -14,6 +14,7 @@ import EditUserProfile from "./EditUserProfile";
 import UploadImg from "./UploadImg";
 import ErrorPage from "./ErrorPage";
 import jwt_decode from "jwt-decode";
+import ForgotPassword from "./ForgotPassword";
 
 export const baseURL = process.env.REACT_APP_BASE_URL;
 export const UserContext = createContext();
@@ -152,6 +153,10 @@ export default function App() {
                     <Route 
                         path="/upload/img"
                         element={<UploadImg />}
+                    />
+                    <Route
+                        path="/forgot-password"
+                        element={<ForgotPassword />}
                     />
                     <Route
                         path='*'
