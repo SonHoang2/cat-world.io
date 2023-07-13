@@ -15,6 +15,8 @@ import UploadImg from "./UploadImg";
 import ErrorPage from "./ErrorPage";
 import jwt_decode from "jwt-decode";
 import ForgotPassword from "./ForgotPassword";
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
 
 export const baseURL = process.env.REACT_APP_BASE_URL;
 export const UserContext = createContext();
@@ -89,80 +91,82 @@ export default function App() {
     return (
         <UserContext.Provider value={value}>
             <AnimatePresence mode="wait">
-                <Routes location={location} key={location.pathname}>
-                    <Route 
-                        path='/'
-                        element={<Home 
-                                    catData={catData}
-                                    setCatData={setCatData}
-                                    seeMore={seeMore}
-                                    setSeeMore={setSeeMore}
-                                    cards={cards()}
-                                />} 
-                    />
-                    <Route 
-                        path="/mobile-search"
-                        element={<MobileSearch
-                            catData={catData}
-                        />}
-                    />
-                    {catData.map(item => (
+                <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+                    <Routes location={location} key={location.pathname}>
                         <Route 
-                            path={'/' + item.name}
-                            key={item.name}
-                            element={
-                                <CatDetail
-                                    {...item}
-                                    catData={catData} 
-                                    setCatData={setCatData}
-                                    setCart={setCart}
-                                    cart={cart}
-                                />
-                            }
+                            path='/'
+                            element={<Home 
+                                        catData={catData}
+                                        setCatData={setCatData}
+                                        seeMore={seeMore}
+                                        setSeeMore={setSeeMore}
+                                        cards={cards()}
+                                    />} 
                         />
-                    ))}
-                    {
-                        jwt &&
                         <Route 
-                            path="/cart"
-                            element={<Cart cart={cart} setCart={setCart} />}
+                            path="/mobile-search"
+                            element={<MobileSearch
+                                catData={catData}
+                            />}
                         />
-                    }
-                    <Route 
-                        path='/login'   
-                        element={<Login />}
-                    />
-                    <Route 
-                        path='/signup'   
-                        element={<Signup />}
-                    />
-                    {
-                        jwt &&
+                        {catData.map(item => (
+                            <Route 
+                                path={'/' + item.name}
+                                key={item.name}
+                                element={
+                                    <CatDetail
+                                        {...item}
+                                        catData={catData} 
+                                        setCatData={setCatData}
+                                        setCart={setCart}
+                                        cart={cart}
+                                    />
+                                }
+                            />
+                        ))}
+                        {
+                            jwt &&
+                            <Route 
+                                path="/cart"
+                                element={<Cart cart={cart} setCart={setCart} />}
+                            />
+                        }
+                        <Route 
+                            path='/login'   
+                            element={<Login />}
+                        />
+                        <Route 
+                            path='/signup'   
+                            element={<Signup />}
+                        />
+                        {
+                            jwt &&
+                            <Route
+                                path='/user'
+                                element={
+                                    <User
+                                        {...userData}
+                                    />}
+                            />
+                        }
+                        <Route 
+                            path="/user/edit"
+                            element={<EditUserProfile/>}
+                        />
+                        <Route 
+                            path="/upload/img"
+                            element={<UploadImg />}
+                        />
                         <Route
-                            path='/user'
-                            element={
-                                <User
-                                    {...userData}
-                                />}
+                            path="/forgot-password"
+                            element={<ForgotPassword />}
                         />
-                    }
-                    <Route 
-                        path="/user/edit"
-                        element={<EditUserProfile/>}
-                    />
-                    <Route 
-                        path="/upload/img"
-                        element={<UploadImg />}
-                    />
-                    <Route
-                        path="/forgot-password"
-                        element={<ForgotPassword />}
-                    />
-                    <Route
-                        path='*'
-                        element={<ErrorPage />}
-                    />
-                </Routes>
+                        <Route
+                            path='*'
+                            element={<ErrorPage />}
+                        />
+                    </Routes>
+                </GoogleOAuthProvider>
             </AnimatePresence>
         </UserContext.Provider>
     )

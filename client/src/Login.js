@@ -2,10 +2,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState} from "react";
 import { baseURL } from "./App";
 import { motion } from "framer-motion";
-import { GoogleOAuthProvider } from '@react-oauth/google';
 import { GoogleLogin } from '@react-oauth/google';
+import { useGoogleLogin } from '@react-oauth/google';
 import jwt_decode from "jwt-decode";
-
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -39,15 +38,32 @@ export default function Login() {
         }
     }
 
-    const googleLogin = async credentialResponse => {
-        try {
-            const user = jwt_decode(credentialResponse.credential);
-            const {name, email} = user;
-            const avatar = user.picture
+    const login = useGoogleLogin({
+        onSuccess: async tokenResponse => {
+            const res = await fetch (`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokenResponse.access_token}`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${tokenResponse.access_token}`,
+                    Accept: 'application/json'
+                }
+            })
+            const data = await res.json();
+            console.log(data);
 
+            googleLogin(data)
+        },
+        flow: 'implicit',
+        onError: () => {
+            console.log('Login Failed');
+        },
+    })
+
+    const googleLogin = async userData => {
+        try {
+            const {name, email} = userData;
             const res = await fetch(baseURL + '/login/google', {
                 method: 'POST',
-                body: JSON.stringify({name, email, avatar}),
+                body: JSON.stringify({name, email}),
                 credentials: 'include', 
                 headers: {'Content-Type': 'application/json'},
             });
@@ -133,8 +149,11 @@ export default function Login() {
                 </form>
                 <h5 className='text-center mb-3 text-gray'>or continue with these social profile</h5>
                 <div className="social-contact d-flex justify-content-center mb-3">
-                    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-                        <GoogleLogin
+                    <button className="btn btn-danger border-secondary w-100 d-flex align-items-center justify-content-center" onClick={() => login()}>
+                        <span className="pe-2">Sign in with google</span>
+                        <img className="google-icon" src="/img/google-logo.png"/>
+                    </button>
+                    {/* <GoogleLogin
                             onSuccess={credentialResponse => googleLogin(credentialResponse)}
                             onError={() => {
                                 console.log('Login Failed');
@@ -142,8 +161,7 @@ export default function Login() {
                             type='standard'
                             logo_alignment="center"
                             useOneTap
-                        />
-                    </GoogleOAuthProvider>
+                    /> */}
                 </div>
                 <h5 className='text-center text-gray'>Don’t have an account yet? 
                     <Link to='/signup' className='mx-2'>Signup</Link>
