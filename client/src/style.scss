@@ -29,7 +29,7 @@ p {
 }
 
 body {
-    background-color: #f8f8f8;
+    background-color: #f7f7f7;
 }
 
 input::-webkit-outer-spin-button,
@@ -347,24 +347,27 @@ input[type=number] {
     background-color: #E0E0E0;
 }
 
-.container-login {
+.container-authen {
     position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    .login {
+    .authen {
         width: 475px;
-        border: 1px solid #BDBDBD;
-        border-radius: 24px;
-        .login__input {
+        label {
+            width: 40px;
+        }
+        .authen__input {
             outline: none;
         }
-        .login__input::placeholder {
+        .authen__input::placeholder {
             color: $color-gray;
         }
+        .icon {
+            width: 80px;
+        }
     }
-
     .google-icon {
         width: 20px;
         object-fit: contain;

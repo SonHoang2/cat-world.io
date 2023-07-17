@@ -12,7 +12,6 @@ module.exports.edit = async (req, res) => {
         if (user.password && user.password.length < 6) {
             throw Error('invalid password')
         }
-        const data = await User.edit(user)
         res.json("success")
     }
     catch(err) {
@@ -38,3 +37,4 @@ module.exports.updateAvatar = async (req, res) => {
         console.log(err);
     }
 }
+

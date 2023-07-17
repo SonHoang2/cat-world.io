@@ -2,9 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState} from "react";
 import { baseURL } from "./App";
 import { motion } from "framer-motion";
-import { GoogleLogin } from '@react-oauth/google';
 import { useGoogleLogin } from '@react-oauth/google';
-import jwt_decode from "jwt-decode";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -48,8 +46,6 @@ export default function Login() {
                 }
             })
             const data = await res.json();
-            console.log(data);
-
             googleLogin(data)
         },
         flow: 'implicit',
@@ -80,12 +76,12 @@ export default function Login() {
 
     return (
         <motion.div 
-            className='container-login d-flex align-items-center justify-content-center'
+            className='container-authen d-flex align-items-center justify-content-center'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{opacity: 0}}
         >
-            <div className='login p-5'>
+            <div className='authen border border-secondary rounded-5 shadow p-5'>
                 <h2 className='mb-5 fw-semibold text-center'>Login</h2>
                 <form onSubmit={handleSubmit}>
                     <div className='w-100 border border-secondary rounded-3 d-flex align-items-center mt-3'>
@@ -93,7 +89,7 @@ export default function Login() {
                             <i className="material-symbols-outlined icon px-2">mail</i>
                         </label>
                         <input 
-                            className='login__input rounded-3 py-2 border-0 h-100 flex-grow-1' 
+                            className='authen__input rounded-3 py-2 border-0 h-100 flex-grow-1' 
                             type="text" 
                             placeholder='Email' 
                             id='email' 
@@ -108,7 +104,7 @@ export default function Login() {
                             <i className="material-symbols-outlined icon px-2">lock</i>
                         </label>
                         <input 
-                            className='login__input rounded-3 py-2 border-0 h-100 flex-grow-1' 
+                            className='authen__input rounded-3 py-2 border-0 h-100 flex-grow-1' 
                             type={passwordType}
                             placeholder='Password' 
                             id='Password' 
@@ -149,19 +145,10 @@ export default function Login() {
                 </form>
                 <h5 className='text-center mb-3 text-gray'>or continue with these social profile</h5>
                 <div className="social-contact d-flex justify-content-center mb-3">
-                    <button className="btn btn-danger border-secondary w-100 d-flex align-items-center justify-content-center" onClick={() => login()}>
-                        <span className="pe-2">Sign in with google</span>
+                    <button className="btn btn-light border shadow-sm  w-100 d-flex align-items-center justify-content-center" onClick={() => login()}>
                         <img className="google-icon" src="/img/google-logo.png"/>
+                        <span className="ps-2">Sign in with google</span>
                     </button>
-                    {/* <GoogleLogin
-                            onSuccess={credentialResponse => googleLogin(credentialResponse)}
-                            onError={() => {
-                                console.log('Login Failed');
-                            }}
-                            type='standard'
-                            logo_alignment="center"
-                            useOneTap
-                    /> */}
                 </div>
                 <h5 className='text-center text-gray'>Don’t have an account yet? 
                     <Link to='/signup' className='mx-2'>Signup</Link>

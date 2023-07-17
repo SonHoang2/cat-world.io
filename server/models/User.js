@@ -85,5 +85,16 @@ module.exports.updateAvatar = async (id, path) => {
     }
 }
 
+module.exports.resetPassword = async (email, password) => {
+    try {
+        const salt = await bcrypt.genSalt();
+        password = await bcrypt.hash(password, salt);
+        const [rows] = await pool.query(`UPDATE users SET password = '${password}' WHERE email = '${email}'`);
+        return findByEmail(email);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 module.exports.showID = showID;
 module.exports.findByEmail = findByEmail;

@@ -2,7 +2,7 @@ import Header from "./component/Header";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
-import { UserContext, baseURL } from "./App";
+import { UserContext} from "./App";
 
 export default function User() {
     const {userData} = useContext(UserContext);

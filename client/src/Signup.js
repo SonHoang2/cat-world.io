@@ -40,20 +40,20 @@ export default function Signup() {
 
     return (
         <motion.div 
-            className='container-login d-flex align-items-center justify-content-center'
+            className='container-authen d-flex align-items-center justify-content-center'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{opacity: 0}}
         >
-            <div className='login p-5'>
+            <div className='authen border border-secondary rounded-5 shadow p-5'>
             <h2 className='mb-5 fw-semibold text-center'>Sign up</h2>
                 <form onSubmit={handleSubmit}>
                     <div className='w-100 border border-secondary rounded-3 d-flex align-items-center mt-3'>
-                        <label className='d-flex py-2' htmlFor="email">
+                        <label className='d-flex py-2' htmlFor="Name">
                             <i className="material-symbols-outlined icon px-2">person</i>
                         </label>
                         <input 
-                            className='login__input rounded-3 py-2 border-0 h-100 flex-grow-1' 
+                            className='authen__input rounded-3 py-2 border-0 h-100 flex-grow-1' 
                             type="text" 
                             placeholder='Name' 
                             id='Name' 
@@ -63,11 +63,11 @@ export default function Signup() {
                         />
                     </div>
                     <div className='w-100 border border-secondary rounded-3 d-flex align-items-center mt-3'>
-                        <label className='d-flex py-2' htmlFor="email">
+                        <label className='d-flex py-2' htmlFor="Email">
                             <i className="material-symbols-outlined icon px-2">mail</i>
                         </label>
                         <input 
-                            className='login__input rounded-3 py-2 border-0 h-100 flex-grow-1' 
+                            className='authen__input rounded-3 py-2 border-0 h-100 flex-grow-1' 
                             type="text" 
                             placeholder='Email' 
                             id='Email' 
@@ -82,7 +82,7 @@ export default function Signup() {
                             <i className="material-symbols-outlined icon px-2">lock</i>
                         </label>
                         <input 
-                            className='login__input rounded-3 py-2 border-0 h-100 flex-grow-1' 
+                            className='authen__input rounded-3 py-2 border-0 h-100 flex-grow-1' 
                             type={passwordType}
                             placeholder='New password' 
                             id='Password' 

@@ -16,7 +16,8 @@ import ErrorPage from "./ErrorPage";
 import jwt_decode from "jwt-decode";
 import ForgotPassword from "./ForgotPassword";
 import { GoogleOAuthProvider } from '@react-oauth/google';
-
+import { VerificationCode } from "./VerificationCode";
+import { ResetPassword } from "./ResetPassword";
 
 export const baseURL = process.env.REACT_APP_BASE_URL;
 export const UserContext = createContext();
@@ -160,6 +161,14 @@ export default function App() {
                         <Route
                             path="/forgot-password"
                             element={<ForgotPassword />}
+                        />
+                        <Route 
+                            path="/verification-code"
+                            element={<VerificationCode />}
+                        />
+                        <Route 
+                            path="/reset-password"
+                            element={<ResetPassword />}
                         />
                         <Route
                             path='*'
