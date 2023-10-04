@@ -5,18 +5,33 @@ import { useEffect, useState } from "react"
 import Evaluate from "./component/Evaluate"
 import { motion } from "framer-motion"
 import Slider from "react-slick"
+import { useNavigate } from "react-router-dom"
 
 export default function CatDetail(props) {
     const [increaseButton, setIncreaseButton] = useState(false);
     const [decreaseButton, setDecreaseButton] = useState(true);
     const [count, setCount] = useState(1);
     const [popup, setPopup] = useState(false);
+    const [buttonDisable, setButtonDisable] = useState(false);
+    const navigate = useNavigate();
+    const checkPermission = () => {
+        const jwt = localStorage.getItem('jwt')
+        if (!jwt) {
+            navigate('/login')
+            console.log('vkl');
+        }
+    }
 
     useEffect(() => {
         if(props.quantity == 1) {
             setIncreaseButton(true)
         }
         window.scrollTo(0, 0);
+
+        checkPermission()
+        if (props.quantity == 0) {
+            setButtonDisable(true);
+        }
     }, [])
 
     useEffect(() => {
@@ -226,6 +241,7 @@ export default function CatDetail(props) {
                                 whileTap={{ scale: 0.95 }}
                                 type="button" 
                                 className="btn btn-primary d-flex align-items-center" 
+                                disabled={buttonDisable}
                                 onClick={() => {
                                     const item = {product: {id: props.id, name: props.name , price: props.price, image: props.image_url}, quantity: count, goodInStock: props.quantity, decreaseButton: decreaseButton, increaseButton: increaseButton}
                                     props.setCart(prev => {
@@ -256,7 +272,7 @@ export default function CatDetail(props) {
                     </div>
                 </div>
                 <div className="container-fluid my-5">
-                    <h4 className="fw-semibold pb-3">Other photos</h4>
+                    <h4 className="fw-semibold pb-3">Other cats</h4>
                     <Slider {...settings}> 
                         {cards()}
                     </Slider> 

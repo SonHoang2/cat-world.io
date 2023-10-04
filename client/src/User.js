@@ -3,9 +3,22 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext} from "./App";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function User() {
     const {userData} = useContext(UserContext);
+    const navigate = useNavigate();
+    const checkPermission = () => {
+        const jwt = localStorage.getItem('jwt')
+        if (!jwt) {
+            navigate('/login')
+        }
+    }
+    useEffect(() => {
+        checkPermission()
+    }, [])
+    
     return (
         <div>
             <Header />

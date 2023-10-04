@@ -24,6 +24,16 @@ export default function EditUserProfile () {
     const navigate = useNavigate();
     const jwt = localStorage.getItem('jwt')
 
+    const checkPermission = () => {
+        if (!jwt) {
+            navigate('/login')
+        }
+    }
+    
+    useEffect(() => {
+        checkPermission()
+    }, [])
+    
     useEffect(() => {
         setName(userData.name);
         setAddress(userData.address);

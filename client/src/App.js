@@ -79,7 +79,9 @@ export default function App() {
             }
             setUserData(newData);
         }
-    }    
+    }
+
+
     useEffect(() => {
         getCatData();
 
@@ -125,13 +127,10 @@ export default function App() {
                                 }
                             />
                         ))}
-                        {
-                            jwt &&
-                            <Route 
-                                path="/cart"
-                                element={<Cart cart={cart} setCart={setCart} />}
-                            />
-                        }
+                        <Route 
+                            path="/cart"
+                            element={<Cart cart={cart} setCart={setCart} />}
+                        />    
                         <Route 
                             path='/login'   
                             element={<Login />}
@@ -140,16 +139,14 @@ export default function App() {
                             path='/signup'   
                             element={<Signup />}
                         />
-                        {
-                            jwt &&
-                            <Route
-                                path='/user'
-                                element={
-                                    <User
-                                        {...userData}
-                                    />}
-                            />
-                        }
+                        <Route
+                            path='/user'
+                            element={
+                                <User
+                                    {...userData}
+                                />}
+                        />
+
                         <Route 
                             path="/user/edit"
                             element={<EditUserProfile/>}

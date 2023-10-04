@@ -2,9 +2,9 @@ import Header from "./component/Header"
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { baseURL } from "./App";
 
 export default function Cart(props) {
-    const navigate = useNavigate();
     const [isCheckAll, setIsCheckAll] = useState(false);
     const [isCheck, setIsCheck] = useState([]);
     const [subtotal, setSubtotal] = useState(0);
@@ -14,16 +14,25 @@ export default function Cart(props) {
     const [display, setDisplay] = useState({
         windowInnerWidth: window.innerWidth,
     })
+    const navigate = useNavigate();
+    const checkPermission = () => {
+        const jwt = localStorage.getItem('jwt')
+        if (!jwt) {
+            navigate('/login')
+        }
+    }
+
     useEffect(() => {
         setTimeout(() => {
             setPopup(false)
-        }, 1000)
+        }, 3000)
     }, [popup])
 
     useEffect(() => {
         window.addEventListener("resize", () => setDisplay({
             windowInnerWidth: window.innerWidth,
         }));
+        checkPermission()
     }, []);
 
     const recalculation = (item) => {
@@ -367,6 +376,27 @@ export default function Cart(props) {
         return arr
     }
 
+    const putCart = async () => {
+        try {
+            const catInCart = isCheck;
+            const res = await fetch(baseURL + '/update/catdata', {
+                method: "PUT",
+                body: JSON.stringify({catInCart}),
+                credentials: 'include', 
+                headers: {'Content-Type': 'application/json'},
+            })
+            const data = await res.json();
+            if (data === 'success') {
+                setPopup(true);
+                deleteAll();
+            } else {
+                throw Error()
+            }
+        } catch {
+            alert("buying error or sold out");
+        }
+    }
+
     const deleteAll = () => {
         setSubtotal(0);
         setTotal(0);
@@ -491,13 +521,8 @@ export default function Cart(props) {
                             transition={{ type: "spring", stiffness: 300}}
                             onClick={() => {
                                 if (isCheck.length > 0) {
-                                    setSubtotal(0);
-                                    setTotal(0);
-                                    setIsCheck([]);
-                                    setIsCheckAll(false);
-                                    props.setCart([]);
-                                    setPopup(true)
-                                    localStorage.removeItem('Cart')
+                                    // cập nhật giỏ hàng ở server
+                                    putCart()
                                 } else {
                                     setBuyErr('You need to buy at least one a cat');
                                 }
